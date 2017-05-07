@@ -12,7 +12,7 @@
     }
     $encrypt_password = md5($password);
 
-    $query_login = mysqli_query($connect, "SELECT * FROM patients WHERE email_patient='$username' AND password_patient='$encrypt_password'");
+    $query_login = mysqli_query($connect, "SELECT * FROM patients JOIN patients_doctors WHERE id_patient=id_pat AND email_patient='$username' AND password_patient='$encrypt_password'");
 
     if(mysqli_num_rows($query_login)){
         
