@@ -83,7 +83,7 @@
                 <h3>Database</h3>
                 <br>
                 <div class="links">
-                    <a href="http://localhost/akusehat/doctors/">Doctors</a>
+                    <a href="../BackEND%20praktikum/doctors">Doctors</a>
                     <a href="http://localhost/akusehat/doctors_spesification/">Doctors Spesification</a>
                     <a href="http://localhost/akusehat/patients/">Patients</a>
                     <a href="http://localhost/akusehat/health_history/">Patients Health History</a>
