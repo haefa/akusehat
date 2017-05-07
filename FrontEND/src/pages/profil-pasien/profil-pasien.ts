@@ -17,14 +17,14 @@ export class ProfilPasien {
   history: any;
   
   id_doctor:number;
-  telephone:number;
   email:string;
   password:string;
   name:string;
   id_patient:number;
   address_patient:string;
 
-  no_telp_patient:number;
+  no_tel_patient:number;
+  name_doctor:string;
 
   constructor(public navCtrl: NavController, public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams) {
   }
@@ -37,10 +37,13 @@ export class ProfilPasien {
     //ini ni ngambil value yang di return dari data.ts
     this.data.getDataPasien().then((data) => {
       this.name = data.name_patient;
-      // this.email = data.email_patient;
-      this.id_patient = data.id_patient;
+      this.email = data.email_patient;
+      this.no_tel_patient = data.no_tel_patient;
       this.address_patient = data.address_patient;
+      this.name_doctor = data.name_doctor;
+      this.id_patient = data.id_patient;
       //this.id_doctor = data.id_doct;
+      
       this.getRiwayatKesehatan();
     })
 
@@ -61,7 +64,8 @@ export class ProfilPasien {
 
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
-
+    this.ionViewWillEnter();
+    
     setTimeout(() => {
       console.log('Async operation has ended');
       refresher.complete();
@@ -82,11 +86,11 @@ export class ProfilPasien {
 
   getRiwayatKesehatan(){
     this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => {
-      let response = data.json();
+      let response = data;
       console.log(response);
-      if(response.status=="200"){
-        this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
-      }
+      // if(response.status=="200"){
+      //   this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      // }
     });
   }
 

@@ -64,6 +64,7 @@ export class Beranda {
 
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
+    this.ionViewWillEnter();
 
     setTimeout(() => {
       console.log('Async operation has ended');
