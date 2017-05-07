@@ -39,11 +39,12 @@ export class LoginPasien {
         
       });
 console.log(input);
-    this.http.post(this.data.BASE_URL+"/test/login_patients.php", input).subscribe(data => {
+    this.http.post(this.data.BASE_URL+"/login_patients.php", input).subscribe(data => {
            
            let response = data.json();
            
            if(response.status=="200"){
+             
              //storage data local di ionicnya dari data base
              this.data.login(response.data);
              this.gotoTab();
