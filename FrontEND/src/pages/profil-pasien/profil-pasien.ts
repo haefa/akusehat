@@ -5,7 +5,8 @@ import { AlertController } from 'ionic-angular';
 import { AkuSehat } from '../aku-sehat/aku-sehat';
 import { PengaturanPasien } from '../pengaturan-pasien/pengaturan-pasien';
 import { ProfilDokterPasien } from '../profil-dokter-pasien/profil-dokter-pasien';
-
+import { Data } from '../../providers/data';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'page-profil-pasien',
@@ -13,11 +14,36 @@ import { ProfilDokterPasien } from '../profil-dokter-pasien/profil-dokter-pasien
 })
 export class ProfilPasien {
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams) {
+  history: any;
+  
+  id_doctor:number;
+  telephone:number;
+  email:string;
+  password:string;
+  name:string;
+  id_patient:number;
+  address_patient:string;
+
+  no_telp_patient:number;
+
+  constructor(public navCtrl: NavController, public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilPasien');
+  }
+
+  ionViewWillEnter() {
+    //ini ni ngambil value yang di return dari data.ts
+    this.data.getDataPasien().then((data) => {
+      this.name = data.name_patient;
+      // this.email = data.email_patient;
+      this.id_patient = data.id_patient;
+      this.address_patient = data.address_patient;
+      //this.id_doctor = data.id_doct;
+      this.getRiwayatKesehatan();
+    })
+
   }
 
   editProfil(){
@@ -52,5 +78,17 @@ export class ProfilPasien {
   profildokter(){
     this.navCtrl.push(ProfilDokterPasien);
   }
+
+
+  getRiwayatKesehatan(){
+    this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => {
+      let response = data.json();
+      console.log(response);
+      if(response.status=="200"){
+        this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
+    });
+  }
+
 
 }

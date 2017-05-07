@@ -42,7 +42,7 @@ export class LoginDokter {
         
       });
     console.log(input);
-    this.http.post(this.data.BASE_URL+"/test/login_doctors.php", input).subscribe(data => {
+    this.http.post(this.data.BASE_URL+"/login_doctors.php", input).subscribe(data => {
            console.log(data);
            let response = data.json();
            
