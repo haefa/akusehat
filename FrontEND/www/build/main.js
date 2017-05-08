@@ -57550,6 +57550,8 @@ var EditProfilPasien = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__aku_sehat_aku_sehat__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pengaturan_pasien_pengaturan_pasien__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__profil_dokter_pasien_profil_dokter_pasien__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_data__ = __webpack_require__(46);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IsiData; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -57567,22 +57569,60 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var IsiData = (function () {
-    function IsiData(navCtrl, alertCtrl, navParams) {
+    function IsiData(navCtrl, http, alertCtrl, navParams, data) {
         this.navCtrl = navCtrl;
+        this.http = http;
         this.alertCtrl = alertCtrl;
         this.navParams = navParams;
+        this.data = data;
+        this.submitted = false;
     }
     IsiData.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad IsiData');
     };
-    IsiData.prototype.simpanData = function () {
-        var alert = this.alertCtrl.create({
-            title: 'Data Tersimpan!',
-            buttons: ['OK']
+    IsiData.prototype.ionViewWillEnter = function () {
+        var _this = this;
+        //ini ni ngambil value yang di return dari data.ts
+        this.data.getDataPasien().then(function (data) {
+            _this.id_patient = data.id_patient;
         });
-        alert.present();
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__beranda_beranda__["a" /* Beranda */]);
+    };
+    IsiData.prototype.simpanData = function (form) {
+        var _this = this;
+        this.submitted = true;
+        if (form.valid) {
+            var input = JSON.stringify({
+                date_daily: this.date_daily,
+                sistol: this.sistol,
+                duration: this.duration,
+                description: this.description,
+                diastol: this.diastol
+            });
+            this.http.post(this.data.BASE_URL + "/daily_health.php?patient=" + this.id_patient, input).subscribe(function (data) {
+                var response = data.json();
+                if (response.status == "200") {
+                    //console.log(response);
+                    //this.data.login(response.data);
+                    var alert = _this.alertCtrl.create({
+                        title: 'Data Tersimpan!',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                    _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__beranda_beranda__["a" /* Beranda */]);
+                }
+                else {
+                    var alert = _this.alertCtrl.create({
+                        title: 'Gagal',
+                        subTitle: 'silahkan coba lagi',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+            });
+        }
     };
     IsiData.prototype.doRefresh = function (refresher) {
         console.log('Begin async operation', refresher);
@@ -57602,11 +57642,12 @@ var IsiData = (function () {
     };
     IsiData = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
-            selector: 'page-isi-data',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\isi-data\isi-data.html"*/'<!--\n  Generated template for the IsiData page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Data Kesehatan Rutin\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<ion-fab bottom right>\n    <button ion-fab mini><ion-icon name="ios-arrow-up"></ion-icon></button>\n    <ion-fab-list side="top">\n      <button ion-fab (click)=\'gotoSettings()\'><ion-icon name="ios-settings"></ion-icon></button>\n      <button ion-fab (click)=\'gotoAbout()\'><ion-icon name="information"></ion-icon></button>\n      <button ion-fab (click)=\'profildokter()\'><ion-icon name="medkit"></ion-icon></button>\n    </ion-fab-list>\n  </ion-fab>\n\n	<ion-list insert>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Tanggal</font></ion-label>\n	    <ion-input type="date"></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Tekanan Darah</font>\n			</ion-label>\n			<ion-input type="number" required placeholder="Sistolik (mmHg)">\n			</ion-input>\n			<ion-input type="number" placeholder="Diastolik (mmHg)">\n			</ion-input>\n					\n	</ion-item>\n\n	 <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Durasi Tidur</font>\n			</ion-label>\n	    <ion-input type="number" required placeholder="(jam)"></ion-input>\n	</ion-item>\n\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="3">Deskripsi</font></ion-label>\n		<ion-textarea autosize type="text" required text-wrap></ion-textarea>\n	  </ion-item>\n\n		<ion-buttons>\n		<button ion-button block (click)="simpanData()">SIMPAN</button>\n		</ion-buttons>\n	</ion-list>\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\isi-data\isi-data.html"*/,
+            selector: 'page-isi-data',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\isi-data\isi-data.html"*/'<!--\n  Generated template for the IsiData page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Data Kesehatan Rutin\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<ion-fab bottom right>\n    <button ion-fab mini><ion-icon name="ios-arrow-up"></ion-icon></button>\n    <ion-fab-list side="top">\n      <button ion-fab (click)=\'gotoSettings()\'><ion-icon name="ios-settings"></ion-icon></button>\n      <button ion-fab (click)=\'gotoAbout()\'><ion-icon name="information"></ion-icon></button>\n      <button ion-fab (click)=\'profildokter()\'><ion-icon name="medkit"></ion-icon></button>\n    </ion-fab-list>\n  </ion-fab>\n\n<form #simpanDataForm="ngForm" novalidate>\n		<ion-list >\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Tanggal</font></ion-label>\n				<ion-input [(ngModel)]="date_daily" name="date_daily" type="date" #tanggall="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			\n			<p ion-text [hidden]="tanggall.valid || submitted == false" color="danger" padding-left>\n				Email is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Tekanan Darah</font></ion-label>\n				<ion-input [(ngModel)]="sistol" placeholder="Sistolik (mmHg)" name="sistol" type="number" #sistolikk="ngModel" required>\n				</ion-input>\n				<ion-input [(ngModel)]="diastol" placeholder="Diastolik (mmHg)" name="diastol" type="number" #diastolikk="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger" padding-left>\n				Tekanan Darah is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Durasi Tidur</font></ion-label>\n				<ion-input [(ngModel)]="duration" name="duration" type="number" #tidurr="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			\n			<p ion-text [hidden]="tidurr.valid || submitted == false" color="danger" padding-left>\n				Durasi Tidur is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Deskripsi</font></ion-label>\n				<ion-textarea [(ngModel)]="description" name="description" type="text" #deskripsii="ngModel" spellcheck="false" autocapitalize="off"\n					autosize text-wrap required>\n				</ion-textarea>\n			</ion-item>\n			\n			<p ion-text [hidden]="deskripsii.valid || submitted == false" color="danger" padding-left>\n				Deskripsi is required\n			</p>\n\n		</ion-list>\n\n		<ion-row responsive-sm>\n			<ion-col>\n				<button ion-button (click)="simpanData(simpanDataForm)" type="submit" block>SIMPAN</button>\n			</ion-col>\n		</ion-row>	\n\n	</form>\n\n\n<!--<form #simpanDataForm="ngForm" novalidate>\n	<ion-list insert>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Tanggal</font></ion-label>\n	    <ion-input [(ngModel)]="date_daily" name="date_daily" type="date" #tanggal="ngModel" spellcheck="false" autocapitalize="off"\n					required></ion-input>\n	</ion-item>\n	<p ion-text [hidden]="tanggal.valid || submitted == false" color="danger" padding-left>\n				Date is required\n	</p>\n\n	<ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Tekanan Darah</font>\n			</ion-label>\n			<ion-input [(ngModel)]="sistol" name="sistol" type="number" #tekananSistol="ngModel" spellcheck="false" autocapitalize="off"\n				 required placeholder="Sistolik (mmHg)">\n			</ion-input>\n			<ion-input [(ngModel)]="diastol" name="diastol" type="number" #tekananDiastol="ngModel" spellcheck="false" autocapitalize="off"\n					required type="number" placeholder="Diastolik (mmHg)">\n			</ion-input>\n	</ion-item>\n	<p ion-text [hidden]="tekananSistol.valid AND tekananDiastol.valid || submitted == false" color="danger" padding-left>\n				Tekanan Darah is required\n	</p>\n\n	 <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Durasi Tidur</font>\n			</ion-label>\n	    <ion-input [(ngModel)]="duration" name="duration" type="number" #tidur="ngModel" spellcheck="false" autocapitalize="off"\n				 required placeholder="(jam)"></ion-input>\n	</ion-item>\n	<p ion-text [hidden]="tidur.valid || submitted == false" color="danger" padding-left>\n				Durasi Tidur is required\n	</p>\n\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="3">Deskripsi</font></ion-label>\n		<ion-textarea [(ngModel)]="description" name="description" type="text" #deskripsi="ngModel" spellcheck="false" autocapitalize="off"\n				 autosize type="text" required text-wrap></ion-textarea>\n	  </ion-item>\n		<p ion-text [hidden]="Deskripsi.valid || submitted == false" color="danger" padding-left>\n				Deskripsi is required\n	</p>\n\n\n		<ion-row responsive-sm>\n			<ion-col>\n				<button ion-button block (click)="simpanData()" type="submit" block>SIMPAN</button>\n			</ion-col>\n		</ion-row>		\n\n	</ion-list>\n</form>-->\n\n\n\n</ion-content>'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\isi-data\isi-data.html"*/,
         }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* Http */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__providers_data__["a" /* Data */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_7__providers_data__["a" /* Data */]) === 'function' && _e) || Object])
     ], IsiData);
     return IsiData;
+    var _a, _b, _c, _d, _e;
 }());
 //# sourceMappingURL=isi-data.js.map
 
