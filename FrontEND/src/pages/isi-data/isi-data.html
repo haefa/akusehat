@@ -30,7 +30,7 @@
 <form #simpanDataForm="ngForm" novalidate>
 		<ion-list >
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Tanggal</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Tanggal</font></ion-label>
 				<ion-input [(ngModel)]="date_daily" name="date_daily" type="date" #tanggall="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
@@ -41,7 +41,7 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Tekanan Darah</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Tekanan Darah</font></ion-label>
 				<ion-input [(ngModel)]="sistol" placeholder="Sistolik (mmHg)" name="sistol" type="number" #sistolikk="ngModel" required>
 				</ion-input>
 				<ion-input [(ngModel)]="diastol" placeholder="Diastolik (mmHg)" name="diastol" type="number" #diastolikk="ngModel" required>
@@ -52,7 +52,7 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Durasi Tidur</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Durasi Tidur</font></ion-label>
 				<ion-input [(ngModel)]="duration" name="duration" type="number" #tidurr="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
@@ -63,7 +63,7 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Deskripsi</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Deskripsi</font></ion-label>
 				<ion-textarea [(ngModel)]="description" name="description" type="text" #deskripsii="ngModel" spellcheck="false" autocapitalize="off"
 					autosize text-wrap required>
 				</ion-textarea>

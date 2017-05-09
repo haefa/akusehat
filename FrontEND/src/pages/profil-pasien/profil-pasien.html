@@ -75,7 +75,7 @@
 	<ion-item></ion-item>
 
 	
-		<ion-item text-center><font size="5">Riwayat Kesehatan</font></ion-item>
+		<ion-item text-center><font size="4">Riwayat Kesehatan</font></ion-item>
 
 		<ion-item>
 				<ion-icon name="md-calendar" item-left></ion-icon>
@@ -117,16 +117,16 @@
 				&nbsp;<ion-icon name="ios-search"></ion-icon>
 				<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					Deskripsi Kesehatan</font>
-				<p *ngFor="let data of history">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.description}}</p>
+				<p *ngFor="let data of history">{{data.description}}</p>
 					
 			</ion-item>
 
 	<ion-item></ion-item>
 			<ion-item>
-				<ion-item text-center><font size="4">Penyakit Yang Pernah Diderita</font></ion-item>
-				<ion-item *ngFor="let data of history">
+				<ion-item text-center text-wrap><font size="4">Penyakit Yang Pernah Diderita</font></ion-item>
+				<ion-item *ngFor="let data of history2">
 						<ion-item>
-							<ion-icon name="list" item-left></ion-icon>
+							<ion-icon name="pulse" item-left></ion-icon>
 							<font size="3">Nama Penyakit</font>
 							<p>{{data.disease_type}}</p>
 						</ion-item>

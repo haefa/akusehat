@@ -25456,6 +25456,7 @@ var ProfilPasien = (function () {
             _this.id_patient = data.id_patient;
             //this.id_doctor = data.id_doct;
             _this.getRiwayatKesehatan();
+            _this.getDataHistory();
         });
     };
     ProfilPasien.prototype.editProfil = function () {
@@ -25487,21 +25488,33 @@ var ProfilPasien = (function () {
     };
     ProfilPasien.prototype.getRiwayatKesehatan = function () {
         // nah ini nnti dipisah aja jadi 2 ,, eheheheh 
+        var _this = this;
         this.http.get(this.data.BASE_URL + "/health_history.php?patient=" + this.id_patient).subscribe(function (data) {
-            var response = data;
+            var response = data.json();
             console.log(response);
-            // if(response.status=="200"){
-            //   this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
-            // }
+            if (response.status == "200") {
+                _this.history = response.data; //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+            }
+        });
+    };
+    ProfilPasien.prototype.getDataHistory = function () {
+        var _this = this;
+        this.http.get(this.data.BASE_URL + "/patient_disease.php?patient=" + this.id_patient).subscribe(function (data) {
+            var response = data.json();
+            console.log(response);
+            if (response.status == "200") {
+                _this.history2 = response.data; //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+            }
         });
     };
     ProfilPasien = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
-            selector: 'page-profil-pasien',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\profil-pasien\profil-pasien.html"*/'<!--\n  Generated template for the ProfilPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Profil\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n<ion-content padding>\n  <ion-refresher (ionRefresh)="doRefresh($event)">\n    <ion-refresher-content\n      pullingIcon="arrow-dropdown"\n      pullingText="Tarik untuk memperbaharui"\n      refreshingSpinner="circles"\n      refreshingText="Memperbaharui...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n	<ion-fab bottom right>\n    <button ion-fab mini><ion-icon name="ios-arrow-up"></ion-icon></button>\n    <ion-fab-list side="top">\n      <button ion-fab (click)=\'gotoSettings()\'><ion-icon name="ios-settings"></ion-icon></button>\n      <button ion-fab (click)=\'gotoAbout()\'><ion-icon name="information"></ion-icon></button>\n      <button ion-fab (click)=\'profildokter()\'><ion-icon name="medkit"></ion-icon></button>\n    </ion-fab-list>\n  </ion-fab>\n\n	<ion-card > \n	  <img src="../../assets/pict/person-flat.png"  style=\'height: 40vh; width: 40vh; display: block; margin: auto;\'>\n	  <ion-item>\n	  <button ion-button clear item-right>\n			  <ion-icon name="ios-image" color="primary" (click)=\'editFoto()\'></ion-icon>\n			</button>\n		</ion-item>\n	  <ion-card-content>\n	    <ion-card-title>\n	      {{name}}\n	      </ion-card-title>\n	  </ion-card-content>\n	</ion-card>\n\n	<ion-list>\n	  <ion-item>\n	    <ion-icon name="mail" item-left></ion-icon>\n	     <font size="3">Email</font>\n	     <p>{{email}}</p>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-icon name="call" item-left></ion-icon>\n	     <font size="3">Nomor Telepon</font>\n	     <p>{{no_tel_patient}}</p>\n	  </ion-item>\n\n\n	  <ion-item  text-wrap>\n	    <ion-icon name="map" item-left></ion-icon>\n	     <font size="3">Alamat</font>\n	     <p>{{address_patient}}</p>\n	  </ion-item>\n\n  	  <ion-item>\n	    <ion-icon name="medkit" item-left></ion-icon>\n	     <font size="3">Dokter</font>\n	     <p>dr.{{name_doctor}}</p>\n	  </ion-item>\n\n	<ion-item></ion-item>\n\n	\n		<ion-item text-center><font size="5">Riwayat Kesehatan</font></ion-item>\n\n		<ion-item>\n				<ion-icon name="md-calendar" item-left></ion-icon>\n				<font size="3">Umur</font>\n				<p *ngFor="let data of history">{{data.age}} tahun</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="body" item-left></ion-icon>\n				<font size="3">Berat Badan</font>\n				<p *ngFor="let data of history">{{data.weight}} kg</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-body" item-left></ion-icon>\n				<font size="3">Tinggi Badan</font>\n				<p *ngFor="let data of history">{{data.height}} cm</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-bug" item-left></ion-icon>\n				<font size="3">Alergi</font>\n				<p *ngFor="let data of history">{{data.allergy}}</p>\n			</ion-item>\n			\n			<ion-item>\n				<ion-icon name="md-trending-down" item-left></ion-icon>\n				<font size="3">Cacat</font>\n				<p *ngFor="let data of history"> {{data.disability}} </p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-construct" item-left></ion-icon>\n				<font size="3">Operasi</font>\n				<p *ngFor="let data of history"> {{data.operation}} </p>\n			</ion-item>\n\n			<ion-item text-wrap>\n				&nbsp;<ion-icon name="ios-search"></ion-icon>\n				<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n					Deskripsi Kesehatan</font>\n				<p *ngFor="let data of history">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.description}}</p>\n					\n			</ion-item>\n\n	<ion-item></ion-item>\n			<ion-item>\n				<ion-item text-center><font size="4">Penyakit Yang Pernah Diderita</font></ion-item>\n				<ion-item *ngFor="let data of history">\n						<ion-item>\n							<ion-icon name="list" item-left></ion-icon>\n							<font size="3">Nama Penyakit</font>\n							<p>{{data.disease_type}}</p>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-calendar" item-left></ion-icon>\n							<font size="3">Tanggal Dirawat</font>\n							<p>{{data.hospitalized_date}}</p>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-timer" item-left></ion-icon>\n							<font size="3">Lama Dirawat</font>\n							<p>{{data.hospitalized_long}} Hari</p>\n						</ion-item>\n				</ion-item>\n			</ion-item>\n		\n	</ion-list>\n	<button ion-button block (click)=\'editProfil()\'>EDIT</button>\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\profil-pasien\profil-pasien.html"*/,
+            selector: 'page-profil-pasien',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\profil-pasien\profil-pasien.html"*/'<!--\n  Generated template for the ProfilPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Profil\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n<ion-content padding>\n  <ion-refresher (ionRefresh)="doRefresh($event)">\n    <ion-refresher-content\n      pullingIcon="arrow-dropdown"\n      pullingText="Tarik untuk memperbaharui"\n      refreshingSpinner="circles"\n      refreshingText="Memperbaharui...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n	<ion-fab bottom right>\n    <button ion-fab mini><ion-icon name="ios-arrow-up"></ion-icon></button>\n    <ion-fab-list side="top">\n      <button ion-fab (click)=\'gotoSettings()\'><ion-icon name="ios-settings"></ion-icon></button>\n      <button ion-fab (click)=\'gotoAbout()\'><ion-icon name="information"></ion-icon></button>\n      <button ion-fab (click)=\'profildokter()\'><ion-icon name="medkit"></ion-icon></button>\n    </ion-fab-list>\n  </ion-fab>\n\n	<ion-card > \n	  <img src="../../assets/pict/person-flat.png"  style=\'height: 40vh; width: 40vh; display: block; margin: auto;\'>\n	  <ion-item>\n	  <button ion-button clear item-right>\n			  <ion-icon name="ios-image" color="primary" (click)=\'editFoto()\'></ion-icon>\n			</button>\n		</ion-item>\n	  <ion-card-content>\n	    <ion-card-title>\n	      {{name}}\n	      </ion-card-title>\n	  </ion-card-content>\n	</ion-card>\n\n	<ion-list>\n	  <ion-item>\n	    <ion-icon name="mail" item-left></ion-icon>\n	     <font size="3">Email</font>\n	     <p>{{email}}</p>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-icon name="call" item-left></ion-icon>\n	     <font size="3">Nomor Telepon</font>\n	     <p>{{no_tel_patient}}</p>\n	  </ion-item>\n\n\n	  <ion-item  text-wrap>\n	    <ion-icon name="map" item-left></ion-icon>\n	     <font size="3">Alamat</font>\n	     <p>{{address_patient}}</p>\n	  </ion-item>\n\n  	  <ion-item>\n	    <ion-icon name="medkit" item-left></ion-icon>\n	     <font size="3">Dokter</font>\n	     <p>dr.{{name_doctor}}</p>\n	  </ion-item>\n\n	<ion-item></ion-item>\n\n	\n		<ion-item text-center><font size="5">Riwayat Kesehatan</font></ion-item>\n\n		<ion-item>\n				<ion-icon name="md-calendar" item-left></ion-icon>\n				<font size="3">Umur</font>\n				<p *ngFor="let data of history">{{data.age}} tahun</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="body" item-left></ion-icon>\n				<font size="3">Berat Badan</font>\n				<p *ngFor="let data of history">{{data.weight}} kg</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-body" item-left></ion-icon>\n				<font size="3">Tinggi Badan</font>\n				<p *ngFor="let data of history">{{data.height}} cm</p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-bug" item-left></ion-icon>\n				<font size="3">Alergi</font>\n				<p *ngFor="let data of history">{{data.allergy}}</p>\n			</ion-item>\n			\n			<ion-item>\n				<ion-icon name="md-trending-down" item-left></ion-icon>\n				<font size="3">Cacat</font>\n				<p *ngFor="let data of history"> {{data.disability}} </p>\n			</ion-item>\n\n			<ion-item>\n				<ion-icon name="ios-construct" item-left></ion-icon>\n				<font size="3">Operasi</font>\n				<p *ngFor="let data of history"> {{data.operation}} </p>\n			</ion-item>\n\n			<ion-item text-wrap>\n				&nbsp;<ion-icon name="ios-search"></ion-icon>\n				<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n					Deskripsi Kesehatan</font>\n				<p *ngFor="let data of history">{{data.description}}</p>\n					\n			</ion-item>\n\n	<ion-item></ion-item>\n			<ion-item>\n				<ion-item text-center text-wrap><font size="5">Penyakit Yang Pernah Diderita</font></ion-item>\n				<ion-item *ngFor="let data of history2">\n						<ion-item>\n							<ion-icon name="pulse" item-left></ion-icon>\n							<font size="3">Nama Penyakit</font>\n							<p>{{data.disease_type}}</p>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-calendar" item-left></ion-icon>\n							<font size="3">Tanggal Dirawat</font>\n							<p>{{data.hospitalized_date}}</p>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-timer" item-left></ion-icon>\n							<font size="3">Lama Dirawat</font>\n							<p>{{data.hospitalized_long}} Hari</p>\n						</ion-item>\n				</ion-item>\n			</ion-item>\n		\n	</ion-list>\n	<button ion-button block (click)=\'editProfil()\'>EDIT</button>\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\profil-pasien\profil-pasien.html"*/,
         }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_7__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_6__providers_data__["a" /* Data */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_7__angular_http__["b" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_7__angular_http__["b" /* Http */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__providers_data__["a" /* Data */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_6__providers_data__["a" /* Data */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]) === 'function' && _e) || Object])
     ], ProfilPasien);
     return ProfilPasien;
+    var _a, _b, _c, _d, _e;
 }());
 //# sourceMappingURL=profil-pasien.js.map
 
@@ -38205,7 +38218,7 @@ var cordovaWarn = function (pluginName, method) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(309);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(308);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_login_login__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_login_login__ = __webpack_require__(316);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -38414,8 +38427,98 @@ var Beranda = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs_dokter_tabs_dokter__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__signup_dokter_signup_dokter__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(39);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginDokter; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var LoginDokter = (function () {
+    function LoginDokter(navCtrl, http, alertCtrl, navParams, data) {
+        this.navCtrl = navCtrl;
+        this.http = http;
+        this.alertCtrl = alertCtrl;
+        this.navParams = navParams;
+        this.data = data;
+        this.submitted = false; //ini di declare awalnya false dlu
+    }
+    LoginDokter.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginDokter');
+    };
+    LoginDokter.prototype.gotoTab = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_dokter_tabs_dokter__["a" /* TabsDokter */]);
+    };
+    LoginDokter.prototype.signUp = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__signup_dokter_signup_dokter__["a" /* SignupDokter */]);
+    };
+    LoginDokter.prototype.login = function (form) {
+        var _this = this;
+        this.submitted = true;
+        if (form.valid) {
+            var input = JSON.stringify({
+                email: this.email,
+                password: this.password
+            });
+            this.http.post(this.data.BASE_URL + "/login_doctors.php", input).subscribe(function (data) {
+                var response = data.json();
+                if (response.status == "200") {
+                    //console.log(response);
+                    _this.data.login(response.data);
+                    _this.gotoTab();
+                }
+                else {
+                    var alert_1 = _this.alertCtrl.create({
+                        title: 'Gagal Masuk',
+                        subTitle: 'Email atau Password salah!',
+                        buttons: ['OK']
+                    });
+                    alert_1.present();
+                }
+            });
+        }
+    };
+    LoginDokter.prototype.lupaPassword = function () {
+        var alert = this.alertCtrl.create({
+            title: 'Hubungi Admin',
+            subTitle: 'Nuh  : @nuhsat <br> Fatim  : @haefa',
+            buttons: ['OK']
+        });
+        alert.present();
+    };
+    LoginDokter = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
+            selector: 'page-login-dokter',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\login-dokter\login-dokter.html"*/'<!--\n  Generated template for the LoginPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Dokter\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n\n\n<ion-content padding>\n\n\n	    <img src="../../assets/pict/AkuSehat.png"/>\n	    \n\n\n<form #loginForm="ngForm" novalidate>\n		<ion-list >\n			<ion-item>\n				<ion-label stacked>Email</ion-label>\n				<ion-input [(ngModel)]="email" name="email" type="email" #user="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="user.valid || submitted == false" color="danger" padding-left>\n				Username is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked>Password</ion-label>\n				<ion-input [(ngModel)]="password" name="pass" type="password" #pass="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="pass.valid || submitted == false" color="danger" padding-left>\n				Password is required\n			</p>\n		</ion-list>\n\n		<ion-row responsive-sm>\n			<ion-col>\n				<button ion-button (click)="login(loginForm)" type="submit" block>Masuk</button>\n			</ion-col>\n		</ion-row>		\n\n		<ion-grid>\n			<ion-row>\n				<ion-col text-center><a><font color="black">Tidak punya akun?</font><a (click)="signUp()"> Buat akun.</a></a></ion-col>\n			</ion-row>\n			<ion-row>\n				<ion-col text-center><a><font color="black"></font><a (click)="lupaPassword()">Lupa password.</a></a></ion-col>\n			</ion-row>\n		</ion-grid>\n\n	</form>\n\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\login-dokter\login-dokter.html"*/,
+        }), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */], __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* Data */]])
+    ], LoginDokter);
+    return LoginDokter;
+}());
+//# sourceMappingURL=login-dokter.js.map
+
+/***/ }),
+/* 191 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs_tabs__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__signup_pasien_signup_pasien__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__signup_pasien_signup_pasien__ = __webpack_require__(319);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(39);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPasien; });
@@ -38498,7 +38601,7 @@ var LoginPasien = (function () {
 //# sourceMappingURL=login-pasien.js.map
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38563,7 +38666,7 @@ var PengaturanDokter = (function () {
 //# sourceMappingURL=pengaturan-dokter.js.map
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38571,7 +38674,7 @@ var PengaturanDokter = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__edit_profil_dokter_edit_profil_dokter__ = __webpack_require__(313);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__aku_sehat_aku_sehat__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(192);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfilDokter; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -38632,52 +38735,6 @@ var ProfilDokter = (function () {
     return ProfilDokter;
 }());
 //# sourceMappingURL=profil-dokter.js.map
-
-/***/ }),
-/* 193 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__beranda_dokter_beranda_dokter__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profil_dokter_profil_dokter__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__daftar_pasien_daftar_pasien__ = __webpack_require__(312);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsDokter; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var TabsDokter = (function () {
-    function TabsDokter(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.tab1Root = __WEBPACK_IMPORTED_MODULE_2__beranda_dokter_beranda_dokter__["a" /* BerandaDokter */];
-        this.tab2Root = __WEBPACK_IMPORTED_MODULE_3__profil_dokter_profil_dokter__["a" /* ProfilDokter */];
-        this.tab3Root = __WEBPACK_IMPORTED_MODULE_4__daftar_pasien_daftar_pasien__["a" /* DaftarPasien */];
-    }
-    TabsDokter.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TabsDokter');
-    };
-    TabsDokter = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
-            selector: 'page-tabs-dokter',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\tabs-dokter\tabs-dokter.html"*/'<ion-tabs color="primary">\n\n  <ion-tab tabIcon="ios-home"  [root]="tab1Root"></ion-tab>\n  <ion-tab tabIcon="ios-contact"  [root]="tab2Root"></ion-tab>\n  <ion-tab tabIcon="ios-clipboard"  [root]="tab3Root"></ion-tab>\n\n</ion-tabs>'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\tabs-dokter\tabs-dokter.html"*/,
-        }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
-    ], TabsDokter);
-    return TabsDokter;
-}());
-//# sourceMappingURL=tabs-dokter.js.map
 
 /***/ }),
 /* 194 */
@@ -57355,7 +57412,7 @@ var BayarUpload = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__aku_sehat_aku_sehat__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(21);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BerandaDokter; });
@@ -57494,7 +57551,7 @@ var DaftarPasien = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profil_dokter_profil_dokter__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profil_dokter_profil_dokter__ = __webpack_require__(193);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProfilDokter; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -57544,6 +57601,8 @@ var EditProfilDokter = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profil_pasien_profil_pasien__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProfilPasien; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -57558,14 +57617,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var EditProfilPasien = (function () {
-    function EditProfilPasien(navCtrl, alertCtrl, navParams) {
+    function EditProfilPasien(navCtrl, http, data, alertCtrl, navParams) {
         this.navCtrl = navCtrl;
+        this.http = http;
+        this.data = data;
         this.alertCtrl = alertCtrl;
         this.navParams = navParams;
     }
     EditProfilPasien.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad EditProfilPasien');
+    };
+    EditProfilPasien.prototype.ionViewWillEnter = function () {
+        var _this = this;
+        //ini ni ngambil value yang di return dari data.ts
+        this.data.getDataPasien().then(function (data) {
+            _this.name = data.name_patient;
+            // this.email = data.email_patient;
+            _this.no_tel_patient = data.no_tel_patient;
+            _this.address_patient = data.address_patient;
+            // this.name_doctor = data.name_doctor;
+            _this.id_patient = data.id_patient;
+            //this.id_doctor = data.id_doct;
+            _this.getRiwayatKesehatan();
+            _this.getDataHistory();
+        });
     };
     EditProfilPasien.prototype.simpanProfil = function () {
         var alert = this.alertCtrl.create({
@@ -57573,15 +57651,68 @@ var EditProfilPasien = (function () {
             buttons: ['OK']
         });
         alert.present();
+        this.editProfil();
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__profil_pasien_profil_pasien__["a" /* ProfilPasien */]);
+    };
+    EditProfilPasien.prototype.getRiwayatKesehatan = function () {
+        // nah ini nnti dipisah aja jadi 2 ,, eheheheh 
+        var _this = this;
+        this.http.get(this.data.BASE_URL + "/health_history.php?patient=" + this.id_patient).subscribe(function (data) {
+            var response = data.json();
+            console.log(response);
+            if (response.status == "200") {
+                _this.history = response.data; //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+            }
+        });
+    };
+    EditProfilPasien.prototype.editProfil = function () {
+        var _this = this;
+        var input = JSON.stringify({
+            name: this.name,
+            no_tel_patient: this.no_tel_patient,
+            address_patient: this.address_patient,
+            age: this.age,
+            address: this.address
+        });
+        this.http.post(this.data.BASE_URL + "/edit_profile_patient.php?patient=" + this.id_patient, input).subscribe(function (data) {
+            var response = data.json();
+            if (response.status == "200") {
+                // this.data.login(response.data);
+                var alert = _this.alertCtrl.create({
+                    title: 'Data Tersimpan!',
+                    buttons: ['OK']
+                });
+                alert.present();
+                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__profil_pasien_profil_pasien__["a" /* ProfilPasien */]);
+            }
+            else {
+                var alert = _this.alertCtrl.create({
+                    title: 'Gagal Mengubah Profil',
+                    subTitle: '',
+                    buttons: ['OK']
+                });
+                alert.present();
+            }
+        });
+    };
+    EditProfilPasien.prototype.getDataHistory = function () {
+        var _this = this;
+        this.http.get(this.data.BASE_URL + "/patient_disease.php?patient=" + this.id_patient).subscribe(function (data) {
+            var response = data.json();
+            console.log(response);
+            if (response.status == "200") {
+                _this.history2 = response.data; //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+            }
+        });
     };
     EditProfilPasien = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
-            selector: 'page-edit-profil-pasien',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\edit-profil-pasien\edit-profil-pasien.html"*/'<!--\n  Generated template for the EditProfilPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Edit Profil\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n<ion-content padding>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nama</font></ion-label>\n	    <ion-input type="text" required></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Email</font></ion-label>\n	    <ion-input type="email" required></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nomor Telepon</font></ion-label>\n	    <ion-input type="number" required></ion-input>\n	</ion-item>	\n\n\n	<ion-item>\n	    <ion-label stacked color="dark" lineHeight="22"><font size="3">Alamat</font></ion-label>\n	    <ion-textarea autosize type="text" required></ion-textarea>\n	</ion-item>\n\n\n	<ion-list insert>\n	<ion-item></ion-item>\n	<ion-item text-center><font size="5">Riwayat Kesehatan</font></ion-item>\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Umur</font>\n			</ion-label>\n	    <ion-input type="number" required placeholder="(tahun)"></ion-input>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Berat Badan</font>\n			</ion-label>\n	    <ion-input type="number" required placeholder="(kg)"></ion-input>\n	  </ion-item>\n\n\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="3">Tinggi Badan</font>\n			</ion-label>\n	    <ion-input type="number" required placeholder="(cm)"></ion-input>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="3">Alergi</font></ion-label>\n		<ion-textarea autosize type="text"></ion-textarea>\n	  </ion-item>\n\n	  <ion-item></ion-item>\n	  <ion-item text-center>Penyakit Yang Pernah Diderita</ion-item>\n	  	\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nama Penyakit</font></ion-label>\n	    <ion-input type="text"></ion-input>\n	  </ion-item>\n\n\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="3">Tanggal Dirawat</font></ion-label>\n	    <ion-input type="date"></ion-input>\n	  </ion-item>\n\n	  	<ion-item>\n		    <ion-label stacked color="dark">\n					<font size="3">Lama Dirawat</font>\n		    </ion-label>\n		    <ion-input type="number" placeholder="(hari)" ></ion-input>\n		</ion-item>\n\n	  	<ion-item>\n		    <ion-label stacked color="dark"><font size="3">Cacat</font></ion-label>\n		    <ion-textarea autosize type="text"></ion-textarea>\n		</ion-item>\n\n		<ion-item>\n		<ion-buttons end>\n			<button ion-button icon-left>\n			  <ion-icon name="add-circle"></ion-icon>\n			  &nbsp;&nbsp;Tambah Riwayat\n			</button>\n		</ion-buttons>\n		</ion-item>\n\n		<ion-item></ion-item>\n\n		<ion-item>\n		    <ion-label stacked color="dark"><font size="3">Operasi</font></ion-label>\n			<ion-textarea autosize type="text"></ion-textarea>\n		  </ion-item>\n\n		<ion-item>\n		    <ion-label stacked color="dark"><font size="3">Deskripsi</font></ion-label>\n		    <ion-textarea autosize type="text"></ion-textarea>\n		</ion-item>\n\n	</ion-list>\n\n	<button ion-button block (click)=\'simpanProfil()\'>SIMPAN</button>\n\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\edit-profil-pasien\edit-profil-pasien.html"*/,
+            selector: 'page-edit-profil-pasien',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\edit-profil-pasien\edit-profil-pasien.html"*/'<!--\n  Generated template for the EditProfilPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Edit Profil\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n<ion-content padding>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="2">Nama</font></ion-label>\n	    <ion-input [(ngModel)]="name" type="text" value="{{name}}" required></ion-input>\n	</ion-item>\n\n	<!--<ion-item>\n	    <ion-label stacked color="dark"><font size="2">Email</font></ion-label>\n	    <ion-input type="email" value="{{email}}" required></ion-input>\n	</ion-item>-->\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>\n	    <ion-input [(ngModel)]="no_tel_patient" type="number" value="{{no_tel_patient}}" required></ion-input>\n	</ion-item>	\n\n\n	<ion-item>\n	    <ion-label stacked color="dark" lineHeight="22"><font size="2">Alamat</font></ion-label>\n	    <ion-textarea [(ngModel)]="address_patient" autosize type="text" value="{{address_patient}}" required></ion-textarea>\n	</ion-item>\n\n\n	\n	<ion-item></ion-item>\n	<ion-item text-center><font size="4">Riwayat Kesehatan</font></ion-item>\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="2">Umur</font>\n			</ion-label>\n	    <ion-input [(ngModel)]="age" *ngFor="let data of history" type="number" value="{{data.age}}" required placeholder="(tahun)"></ion-input>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="2">Berat Badan</font>\n			</ion-label>\n	    <ion-input [(ngModel)]="weight" *ngFor="let data of history" type="number" value="{{data.weight}}" required placeholder="(kg)"></ion-input>\n	  </ion-item>\n\n\n	  <ion-item>\n	    <ion-label stacked color="dark">\n				<font size="2">Tinggi Badan</font>\n			</ion-label>\n	    <ion-input [(ngModel)]="height" *ngFor="let data of history" type="number" value="{{data.height}}" required placeholder="(cm)"></ion-input>\n	  </ion-item>\n\n	  <ion-item>\n	    <ion-label stacked color="dark"><font size="2">Alergi</font></ion-label>\n		<ion-textarea [(ngModel)]="allergy" *ngFor="let data of history" value="{{data.allergy}}" autosize type="text"></ion-textarea>\n	  </ion-item>\n\n		<ion-item>\n		    <ion-label stacked color="dark"><font size="3">Cacat</font></ion-label>\n		    <ion-textarea [(ngModel)]="dissability" *ngFor="let data of history" value="{{data.disability}}" autosize type="text"></ion-textarea>\n		</ion-item>\n\n		<ion-item>\n		    <ion-label stacked color="dark"><font size="2">Operasi</font></ion-label>\n			<ion-textarea [(ngModel)]="operation" *ngFor="let data of history" value="{{data.operation}}" autosize type="text"></ion-textarea>\n		  </ion-item>\n\n		<ion-item>\n		    <ion-label stacked color="dark"><font size="2">Deskripsi</font></ion-label>\n		    <ion-textarea  *ngFor="let data of history" value="{{data.description}}" [(ngModel)]="description"autosize type="text"></ion-textarea>\n		</ion-item>\n\n\n	  <ion-item></ion-item>\n\n		<!--<ion-item>\n				<ion-item text-center text-wrap><font size="4">Penyakit Yang Pernah Diderita</font></ion-item>\n				<ion-item *ngFor="let data of history2">\n						\n						<ion-item>\n							<ion-icon name="pulse" item-left></ion-icon>\n							<font size="3">Nama Penyakit</font>\n							<ion-input value="{{data.disease_type}}" type="text" required placeholder="Nama Penyakit"></ion-input>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-calendar" item-left></ion-icon>\n							<font size="3">Tanggal Dirawat</font>\n							<ion-input value="{{data.hospitalized_date}}" type="date" required placeholder="Tanggal Dirawat"></ion-input>\n						</ion-item>\n\n						<ion-item>\n							<ion-icon name="ios-timer" item-left></ion-icon>\n							<font size="3">Lama Dirawat</font>\n							<ion-input value="{{data.hospitalized_long}}" type="number" required placeholder="Lama Dirawat"></ion-input>\n						</ion-item>\n				</ion-item>\n			</ion-item>\n\n		<ion-item>\n		<ion-buttons end>\n			<button ion-button icon-left>\n			  <ion-icon name="add-circle"></ion-icon>\n			  &nbsp;&nbsp;Tambah Riwayat\n			</button>\n		</ion-buttons>\n		</ion-item>-->\n\n\n\n	<button ion-button block (click)=\'simpanProfil()\'>SIMPAN</button>\n\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\edit-profil-pasien\edit-profil-pasien.html"*/,
         }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* Data */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* Data */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]) === 'function' && _e) || Object])
     ], EditProfilPasien);
     return EditProfilPasien;
+    var _a, _b, _c, _d, _e;
 }());
 //# sourceMappingURL=edit-profil-pasien.js.map
 
@@ -57703,98 +57834,8 @@ var IsiData = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs_dokter_tabs_dokter__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__signup_dokter_signup_dokter__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(39);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginDokter; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var LoginDokter = (function () {
-    function LoginDokter(navCtrl, http, alertCtrl, navParams, data) {
-        this.navCtrl = navCtrl;
-        this.http = http;
-        this.alertCtrl = alertCtrl;
-        this.navParams = navParams;
-        this.data = data;
-        this.submitted = false; //ini di declare awalnya false dlu
-    }
-    LoginDokter.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad LoginDokter');
-    };
-    LoginDokter.prototype.gotoTab = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_dokter_tabs_dokter__["a" /* TabsDokter */]);
-    };
-    LoginDokter.prototype.signUp = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__signup_dokter_signup_dokter__["a" /* SignupDokter */]);
-    };
-    LoginDokter.prototype.login = function (form) {
-        var _this = this;
-        this.submitted = true;
-        if (form.valid) {
-            var input = JSON.stringify({
-                email: this.email,
-                password: this.password
-            });
-            this.http.post(this.data.BASE_URL + "/login_doctors.php", input).subscribe(function (data) {
-                var response = data.json();
-                if (response.status == "200") {
-                    //console.log(response);
-                    _this.data.login(response.data);
-                    _this.gotoTab();
-                }
-                else {
-                    var alert_1 = _this.alertCtrl.create({
-                        title: 'Gagal Masuk',
-                        subTitle: 'Email atau Password salah!',
-                        buttons: ['OK']
-                    });
-                    alert_1.present();
-                }
-            });
-        }
-    };
-    LoginDokter.prototype.lupaPassword = function () {
-        var alert = this.alertCtrl.create({
-            title: 'Hubungi Admin',
-            subTitle: 'Nuh  : @nuhsat <br> Fatim  : @haefa',
-            buttons: ['OK']
-        });
-        alert.present();
-    };
-    LoginDokter = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
-            selector: 'page-login-dokter',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\login-dokter\login-dokter.html"*/'<!--\n  Generated template for the LoginPasien page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Dokter\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n\n\n<ion-content padding>\n\n\n	    <img src="../../assets/pict/AkuSehat.png"/>\n	    \n\n\n<form #loginForm="ngForm" novalidate>\n		<ion-list >\n			<ion-item>\n				<ion-label stacked>Email</ion-label>\n				<ion-input [(ngModel)]="email" name="email" type="email" #user="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="user.valid || submitted == false" color="danger" padding-left>\n				Username is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked>Password</ion-label>\n				<ion-input [(ngModel)]="password" name="pass" type="password" #pass="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="pass.valid || submitted == false" color="danger" padding-left>\n				Password is required\n			</p>\n		</ion-list>\n\n		<ion-row responsive-sm>\n			<ion-col>\n				<button ion-button (click)="login(loginForm)" type="submit" block>Masuk</button>\n			</ion-col>\n		</ion-row>		\n\n		<ion-grid>\n			<ion-row>\n				<ion-col text-center><a><font color="black">Tidak punya akun?</font><a (click)="signUp()"> Buat akun.</a></a></ion-col>\n			</ion-row>\n			<ion-row>\n				<ion-col text-center><a><font color="black"></font><a (click)="lupaPassword()">Lupa password.</a></a></ion-col>\n			</ion-row>\n		</ion-grid>\n\n	</form>\n\n</ion-content>\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\login-dokter\login-dokter.html"*/,
-        }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */], __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* Data */]])
-    ], LoginDokter);
-    return LoginDokter;
-}());
-//# sourceMappingURL=login-dokter.js.map
-
-/***/ }),
-/* 317 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_pasien_login_pasien__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_dokter_login_dokter__ = __webpack_require__(316);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_pasien_login_pasien__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_dokter_login_dokter__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__aku_sehat_aku_sehat__ = __webpack_require__(33);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Login; });
@@ -57851,7 +57892,7 @@ var Login = (function () {
 //# sourceMappingURL=login.js.map
 
 /***/ }),
-/* 318 */
+/* 317 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57913,13 +57954,13 @@ var PanggilDokter = (function () {
 //# sourceMappingURL=panggil-dokter.js.map
 
 /***/ }),
-/* 319 */
+/* 318 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_dokter_login_dokter__ = __webpack_require__(316);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_dokter_login_dokter__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(39);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignupDokter; });
@@ -57981,12 +58022,12 @@ var SignupDokter = (function () {
                 _this.akunBaru();
             }
             else {
-                var alert = _this.alertCtrl.create({
+                var alert_1 = _this.alertCtrl.create({
                     title: 'Gagal Membuat Akun!',
                     subTitle: 'Periksa kembali data.',
                     buttons: ['OK']
                 });
-                alert.present();
+                alert_1.present();
             }
             console.log(response);
         }, function (err) {
@@ -58015,12 +58056,12 @@ var SignupDokter = (function () {
                     _this.akunBaru();
                 }
                 else {
-                    var alert = _this.alertCtrl.create({
+                    var alert_2 = _this.alertCtrl.create({
                         title: 'Gagal Membuat Akun',
                         subTitle: 'Periksa kembali data.',
                         buttons: ['OK']
                     });
-                    alert.present();
+                    alert_2.present();
                 }
             });
         }
@@ -58029,21 +58070,20 @@ var SignupDokter = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
             selector: 'page-signup-dokter',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\signup-dokter\signup-dokter.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>\n      Buat Akun\n    </ion-title>\n  </ion-navbar>		\n</ion-header>\n\n\n\n<ion-content padding>\n\n\n<form #signupForm="ngForm" novalidate>\n		<ion-list >\n			\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Nama</font></ion-label>\n				<ion-input [(ngModel)]="name" name="name" type="text" #nama="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			\n			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>\n				Name is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Email</font></ion-label>\n				<ion-input [(ngModel)]="email" name="email" type="email" #mail="ngModel" spellcheck="false" autocapitalize="off"\n					required>\n				</ion-input>\n			</ion-item>\n			\n			<p ion-text [hidden]="mail.valid || submitted == false" color="danger" padding-left>\n				Email is required\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Password</font></ion-label>\n				<ion-input [(ngModel)]="password" name="pass" type="password" #pass="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="pass.valid || submitted == false" color="danger" padding-left>\n				Password is required\n			</p>\n\n			<ion-item>\n				<ion-label><font size="3" color="black">Jenis Kelamin</font></ion-label>\n				<ion-select [(ngModel)]="sex" name="sex" #jk="ngModel" required>\n				<ion-option value="L">Laki-laki</ion-option>\n				<ion-option value="P">Perempuan</ion-option>\n				</ion-select>\n			</ion-item>\n\n			<p ion-text [hidden]="jk.valid || submitted == false" color="danger" padding-left>\n				Select one\n			</p>\n\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Nomor Telepon</font></ion-label>\n				<ion-input [(ngModel)]="telephone" name="telephone" type="number" #telpon="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="telpon.valid || submitted == false" color="danger" padding-left>\n				Phone number is required\n			</p>\n\n\n			<ion-item>\n				<ion-label><font size="3" color="black">Bank</font></ion-label>\n				<ion-select [(ngModel)]="bank" name="bank" #bang="ngModel" required>\n				<ion-option value="mandiri">Mandiri</ion-option>\n				<ion-option value="bni">BNI</ion-option>\n				<ion-option value="bri">BRI</ion-option>\n				<ion-option value="bca">BCA</ion-option>\n				<ion-option value="btn">BTN</ion-option>\n				</ion-select>\n			</ion-item>\n\n			<p ion-text [hidden]="bang.valid || submitted == false" color="danger" padding-left>\n				Select one\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Nomor Rekening</font></ion-label>\n				<ion-input [(ngModel)]="bank_number" name="bank_number" type="number" #rekening="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="rekening.valid || submitted == false" color="danger" padding-left>\n				Nomor Rekening is required\n			</p>\n\n			<ion-item>\n				<ion-label><font size="3" color="black">Spesialisasi</font></ion-label>\n				<ion-select [(ngModel)]="specialization" name="specialization" #spesialisasi="ngModel" required>\n			    <ion-option value="Umum">Umum</ion-option>\n				<ion-option value="Gigi">Gigi</ion-option>\n				<ion-option value="Anak">Anak</ion-option>\n				<ion-option value="Kandungan">Kandungan</ion-option>\n				<ion-option value="THT">THT</ion-option>\n				</ion-select>\n			</ion-item>\n\n			<p ion-text [hidden]="spesialisasi.valid || submitted == false" color="danger" padding-left>\n				Select one\n			</p>\n\n			<ion-item>\n				<ion-label stacked color="dark"><font size="3">Jumlah Pasien Maksimal</font></ion-label>\n				<ion-input [(ngModel)]="patients_max" name="patients_max" type="number" #maksimal="ngModel" required>\n				</ion-input>\n			</ion-item>\n			<p ion-text [hidden]="maksimal.valid || submitted == false" color="danger" padding-left>\n				Jumlah Pasien Maksimal is required\n			</p>\n			\n\n\n		</ion-list>\n\n		<ion-row responsive-sm>\n			<ion-col>\n				<button ion-button block (click)="signup(signupForm)" type="submit">DAFTAR</button>\n			</ion-col>\n		</ion-row>\n\n	</form>\n\n<!--\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nama</font></ion-label>\n	    <ion-input [(ngModel)]="name" type="text"></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Email</font></ion-label>\n	    <ion-input [(ngModel)]="email" type="email"></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Password</font></ion-label>\n	    <ion-input [(ngModel)]="password" type="password"></ion-input>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label><font size="3" color="black">Jenis Kelamin</font></ion-label>\n	    <ion-select [(ngModel)]="sex">\n	      <ion-option value="L">Laki-laki</ion-option>\n	      <ion-option value="P">Perempuan</ion-option>\n	    </ion-select>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nomor Telepon</font></ion-label>\n	    <ion-input [(ngModel)]="telephone" type="number"></ion-input>\n	</ion-item>	\n	<ion-item>\n	    <ion-label><font size="3" color="black">Bank</font></ion-label>\n	    <ion-select [(ngModel)]="bank">\n	      <ion-option value="mandiri">Mandiri</ion-option>\n	      <ion-option value="bni">BNI</ion-option>\n	      <ion-option value="bri">BRI</ion-option>\n	      <ion-option value="bca">BCA</ion-option>\n	      <ion-option value="btn">BTN</ion-option>\n	    </ion-select>\n	</ion-item>\n\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Nomor Rekening</font></ion-label>\n	    <ion-input [(ngModel)]="bank_number" type="number"></ion-input>\n	</ion-item>\n	<ion-item>\n	    <ion-label><font size="3" color="black">Spesialisasi</font></ion-label>\n	    <ion-select [(ngModel)]="specialization">\n	      <ion-option value="Umum">Umum</ion-option>\n	      <ion-option value="Gigi">Gigi</ion-option>\n	      <ion-option value="Anak">Anak</ion-option>\n	      <ion-option value="Kandungan">Kandungan</ion-option>\n	      <ion-option value="THT">THT</ion-option>\n	    </ion-select>\n	</ion-item>\n	\n	<ion-item>\n	    <ion-label stacked color="dark"><font size="3">Jumlah Pasien Maksimal</font></ion-label>\n	    <ion-input [(ngModel)]="patients_max" type="number"></ion-input>\n	</ion-item>\n	\n	<button ion-button block (click)=\'daftar()\'>DAFTAR</button>-->\n\n</ion-content>\n\n'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\signup-dokter\signup-dokter.html"*/,
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__providers_data__["a" /* Data */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__providers_data__["a" /* Data */]) === 'function' && _e) || Object])
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */], __WEBPACK_IMPORTED_MODULE_4__providers_data__["a" /* Data */]])
     ], SignupDokter);
     return SignupDokter;
-    var _a, _b, _c, _d, _e;
 }());
 //# sourceMappingURL=signup-dokter.js.map
 
 /***/ }),
-/* 320 */
+/* 319 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_pasien_login_pasien__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_pasien_login_pasien__ = __webpack_require__(191);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(39);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignupPasien; });
@@ -58151,6 +58191,52 @@ var SignupPasien = (function () {
 //# sourceMappingURL=signup-pasien.js.map
 
 /***/ }),
+/* 320 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__beranda_dokter_beranda_dokter__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profil_dokter_profil_dokter__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__daftar_pasien_daftar_pasien__ = __webpack_require__(312);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsDokter; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var TabsDokter = (function () {
+    function TabsDokter(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.tab1Root = __WEBPACK_IMPORTED_MODULE_2__beranda_dokter_beranda_dokter__["a" /* BerandaDokter */];
+        this.tab2Root = __WEBPACK_IMPORTED_MODULE_3__profil_dokter_profil_dokter__["a" /* ProfilDokter */];
+        this.tab3Root = __WEBPACK_IMPORTED_MODULE_4__daftar_pasien_daftar_pasien__["a" /* DaftarPasien */];
+    }
+    TabsDokter.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad TabsDokter');
+    };
+    TabsDokter = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Component */])({
+            selector: 'page-tabs-dokter',template:/*ion-inline-start:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\tabs-dokter\tabs-dokter.html"*/'<ion-tabs color="primary">\n\n  <ion-tab tabIcon="ios-home"  [root]="tab1Root"></ion-tab>\n  <ion-tab tabIcon="ios-contact"  [root]="tab2Root"></ion-tab>\n  <ion-tab tabIcon="ios-clipboard"  [root]="tab3Root"></ion-tab>\n\n</ion-tabs>'/*ion-inline-end:"C:\xampp\htdocs\akusehat\FrontEND\src\pages\tabs-dokter\tabs-dokter.html"*/,
+        }), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
+    ], TabsDokter);
+    return TabsDokter;
+}());
+//# sourceMappingURL=tabs-dokter.js.map
+
+/***/ }),
 /* 321 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -58158,7 +58244,7 @@ var SignupPasien = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__beranda_beranda__ = __webpack_require__(189);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isi_data_isi_data__ = __webpack_require__(315);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__panggil_dokter_panggil_dokter__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__panggil_dokter_panggil_dokter__ = __webpack_require__(317);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__bayar_bayar__ = __webpack_require__(188);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__profil_pasien_profil_pasien__ = __webpack_require__(119);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
@@ -71272,30 +71358,30 @@ webpackEmptyContext.id = 381;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(187);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_tabs_dokter_tabs_dokter__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_tabs_dokter_tabs_dokter__ = __webpack_require__(320);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_status_bar__ = __webpack_require__(309);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_splash_screen__ = __webpack_require__(308);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_beranda_beranda__ = __webpack_require__(189);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_isi_data_isi_data__ = __webpack_require__(315);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_panggil_dokter_panggil_dokter__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_panggil_dokter_panggil_dokter__ = __webpack_require__(317);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_profil_pasien_profil_pasien__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_bayar_bayar__ = __webpack_require__(188);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_edit_profil_pasien_edit_profil_pasien__ = __webpack_require__(314);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_aku_sehat_aku_sehat__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_login_login__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_login_pasien_login_pasien__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_login_dokter_login_dokter__ = __webpack_require__(316);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_login_login__ = __webpack_require__(316);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_login_pasien_login_pasien__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_login_dokter_login_dokter__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_pengaturan_pasien_pengaturan_pasien__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_signup_pasien_signup_pasien__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_signup_pasien_signup_pasien__ = __webpack_require__(319);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_bayar_upload_bayar_upload__ = __webpack_require__(310);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_profil_dokter_pasien_profil_dokter_pasien__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_beranda_dokter_beranda_dokter__ = __webpack_require__(311);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_edit_profil_dokter_edit_profil_dokter__ = __webpack_require__(313);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_panggil_pasien_panggil_pasien__ = __webpack_require__(482);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_profil_dokter_profil_dokter__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_pengaturan_dokter_pengaturan_dokter__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_profil_dokter_profil_dokter__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_profil_pasien_dokter_profil_pasien_dokter__ = __webpack_require__(483);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_signup_dokter_signup_dokter__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_signup_dokter_signup_dokter__ = __webpack_require__(318);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_daftar_pasien_daftar_pasien__ = __webpack_require__(312);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__providers_data__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__angular_http__ = __webpack_require__(21);

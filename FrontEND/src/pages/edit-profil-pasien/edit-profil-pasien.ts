@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {  NavController, NavParams } from 'ionic-angular';
 import { ProfilPasien } from '../profil-pasien/profil-pasien';
 import { AlertController } from 'ionic-angular';
+import { Data } from '../../providers/data';
+import { Http } from '@angular/http';
 
 
 @Component({
@@ -10,11 +12,45 @@ import { AlertController } from 'ionic-angular';
 })
 export class EditProfilPasien {
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams) {
+  history: any;
+  history2: any;
+
+  name:string;
+  id_patient:number;
+  address_patient:string;
+  age:number;
+  weight:number;
+  height:number;
+  allergy:string;
+  dissability:string;
+  operation:string;
+  description:string;
+  no_tel_patient:string;
+
+  address:string;
+
+  constructor(public navCtrl: NavController,public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditProfilPasien');
+  }
+
+  ionViewWillEnter() {
+    //ini ni ngambil value yang di return dari data.ts
+    this.data.getDataPasien().then((data) => {
+      this.name = data.name_patient;
+      // this.email = data.email_patient;
+      this.no_tel_patient = data.no_tel_patient;
+      this.address_patient = data.address_patient;
+      // this.name_doctor = data.name_doctor;
+      this.id_patient = data.id_patient;
+      //this.id_doctor = data.id_doct;
+      
+      this.getRiwayatKesehatan();
+      this.getDataHistory();
+    })
+
   }
 
   simpanProfil(){
@@ -25,7 +61,76 @@ export class EditProfilPasien {
     });
     alert.present();
 
+    this.editProfil();
   	this.navCtrl.push(ProfilPasien);
+  }
+
+
+  getRiwayatKesehatan(){
+
+
+    // nah ini nnti dipisah aja jadi 2 ,, eheheheh 
+
+
+    this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => { 
+      let response = data.json();
+      console.log(response);
+      if(response.status=="200"){
+        this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
+    });
+  }
+
+  editProfil()
+  {
+    
+      let input = JSON.stringify({
+        name:this.name,
+        no_tel_patient:this.no_tel_patient,
+        address_patient:this.address_patient,
+        age:this.age,
+        
+        
+        address:this.address
+      });
+        this.http.post(this.data.BASE_URL+"/edit_profile_patient.php?patient="+this.id_patient,input).subscribe(data => {
+        let response = data.json();
+	  if(response.status=="200"){
+
+       
+       // this.data.login(response.data);
+          let alert = this.alertCtrl.create({
+          title: 'Data Tersimpan!',
+          buttons: ['OK']
+          });
+          alert.present();
+
+          this.navCtrl.push(ProfilPasien);
+        
+      }
+      else
+           {
+             let alert = this.alertCtrl.create({
+                title: 'Gagal Mengubah Profil',
+                subTitle: '',      
+                buttons: ['OK']
+              });
+              alert.present();
+           }
+
+      });
+    
+  }
+  
+
+  getDataHistory(){
+    this.http.get(this.data.BASE_URL+"/patient_disease.php?patient="+this.id_patient).subscribe(data => {
+      let response = data.json();
+      console.log(response);
+      if(response.status=="200"){
+        this.history2 = response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
+    });
   }
 
 }

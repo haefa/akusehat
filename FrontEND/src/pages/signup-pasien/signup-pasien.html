@@ -14,7 +14,7 @@
 		<ion-list >
 			
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Nama</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Nama</font></ion-label>
 				<ion-input [(ngModel)]="name" name="name" type="text" #nama="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
@@ -25,7 +25,7 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Email</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Email</font></ion-label>
 				<ion-input [(ngModel)]="email" name="email" type="email" #mail="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
@@ -36,7 +36,7 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Password</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Password</font></ion-label>
 				<ion-input [(ngModel)]="password" name="pass" type="password" #pass="ngModel" required>
 				</ion-input>
 			</ion-item>
@@ -68,7 +68,7 @@
 
 
 			<ion-item>
-				<ion-label stacked color="dark"><font size="3">Alamat</font></ion-label>
+				<ion-label stacked color="dark"><font size="2">Alamat</font></ion-label>
 				<ion-textarea  [(ngModel)]="address" name="address" type="text" #alamat="ngModel" required autosize></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="alamat.valid || submitted == false" color="danger" padding-left>

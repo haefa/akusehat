@@ -15,7 +15,8 @@ import { Http } from '@angular/http';
 export class ProfilPasien {
 
   history: any;
-  
+  history2: any;
+
   id_doctor:number;
   email:string;
   password:string;
@@ -45,6 +46,7 @@ export class ProfilPasien {
       //this.id_doctor = data.id_doct;
       
       this.getRiwayatKesehatan();
+      this.getDataHistory();
     })
 
   }
@@ -91,11 +93,21 @@ export class ProfilPasien {
 
 
     this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => { 
-      let response = data;
+      let response = data.json();
       console.log(response);
-      // if(response.status=="200"){
-      //   this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
-      // }
+      if(response.status=="200"){
+        this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
+    });
+  }
+
+  getDataHistory(){
+    this.http.get(this.data.BASE_URL+"/patient_disease.php?patient="+this.id_patient).subscribe(data => {
+      let response = data.json();
+      console.log(response);
+      if(response.status=="200"){
+        this.history2 = response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
     });
   }
 
