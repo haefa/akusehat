@@ -85,7 +85,12 @@ export class ProfilPasien {
 
 
   getRiwayatKesehatan(){
-    this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => {
+
+
+    // nah ini nnti dipisah aja jadi 2 ,, eheheheh 
+
+
+    this.http.get(this.data.BASE_URL+"/health_history.php?patient="+this.id_patient).subscribe(data => { 
       let response = data;
       console.log(response);
       // if(response.status=="200"){
