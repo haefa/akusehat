@@ -21351,6 +21351,10 @@ page-login-pasien img {
   display: block;
 }
 
+page-login-pasien .login_button {
+  height: 25vw !important;
+}
+
 page-panggil-dokter ion-card {
   position: relative;
   text-align: center;

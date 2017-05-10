@@ -22,7 +22,7 @@ export class EditProfilPasien {
   weight:number;
   height:number;
   allergy:string;
-  dissability:string;
+  disability:string;
   operation:string;
   description:string;
   no_tel_patient:string;
@@ -55,11 +55,11 @@ export class EditProfilPasien {
 
   simpanProfil(){
 
-  let alert = this.alertCtrl.create({
-      title: 'Data Tersimpan!',
-      buttons: ['OK']
-    });
-    alert.present();
+  // let alert = this.alertCtrl.create({
+  //     title: 'Data Tersimpan!',
+  //     buttons: ['OK']
+  //   });
+  //   alert.present();
 
     this.editProfil();
   	this.navCtrl.push(ProfilPasien);
@@ -89,9 +89,13 @@ export class EditProfilPasien {
         no_tel_patient:this.no_tel_patient,
         address_patient:this.address_patient,
         age:this.age,
-        
-        
-        address:this.address
+        weight:this.weight,
+        height:this.height,
+        allergy:this.allergy,
+        disability:this.disability,
+        operation:this.operation,
+        description:this.description,
+        // address:this.address
       });
         this.http.post(this.data.BASE_URL+"/edit_profile_patient.php?patient="+this.id_patient,input).subscribe(data => {
         let response = data.json();
@@ -99,14 +103,14 @@ export class EditProfilPasien {
 
        
        // this.data.login(response.data);
+          
+
+          this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',
           buttons: ['OK']
           });
           alert.present();
-
-          this.navCtrl.push(ProfilPasien);
-        
       }
       else
            {

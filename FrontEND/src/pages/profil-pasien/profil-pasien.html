@@ -76,7 +76,7 @@
 
 	
 		<ion-item text-center><font size="4">Riwayat Kesehatan</font></ion-item>
-
+		
 		<ion-item>
 				<ion-icon name="md-calendar" item-left></ion-icon>
 				<font size="3">Umur</font>
@@ -114,15 +114,21 @@
 			</ion-item>
 
 			<ion-item text-wrap>
-				&nbsp;<ion-icon name="ios-search"></ion-icon>
-				<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<ion-icon name="ios-search" item-left></ion-icon>
+				<font size="3">Deskripsi</font>
+				<p *ngFor="let data of history"> {{data.description}} </p>
+			</ion-item>
+
+			<!--<ion-item text-wrap>
+				<ion-icon name="ios-search" item-left></ion-icon>
+				<font size="3">
 					Deskripsi Kesehatan</font>
 				<p *ngFor="let data of history">{{data.description}}</p>
 					
-			</ion-item>
+			</ion-item>-->
 
 	<ion-item></ion-item>
-			<ion-item>
+			
 				<ion-item text-center text-wrap><font size="4">Penyakit Yang Pernah Diderita</font></ion-item>
 				<ion-item *ngFor="let data of history2">
 						<ion-item>
@@ -143,7 +149,7 @@
 							<p>{{data.hospitalized_long}} Hari</p>
 						</ion-item>
 				</ion-item>
-			</ion-item>
+		
 		
 	</ion-list>
 	<button ion-button block (click)='editProfil()'>EDIT</button>
