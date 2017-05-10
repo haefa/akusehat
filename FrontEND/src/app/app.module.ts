@@ -31,7 +31,7 @@ import { SignupDokter } from '../pages/signup-dokter/signup-dokter';
 import { DaftarPasien } from '../pages/daftar-pasien/daftar-pasien';
 import { Data } from '../providers/data';
 
-
+import { CallNumber } from '@ionic-native/call-number';
 import {HttpModule} from '@angular/http';
 import {Storage } from '@ionic/storage';
 
@@ -100,6 +100,7 @@ import {Storage } from '@ionic/storage';
     StatusBar,
     Data,
     Storage,
+    CallNumber,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

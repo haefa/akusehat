@@ -76,7 +76,9 @@ export class EditProfilPasien {
       let response = data.json();
       console.log(response);
       if(response.status=="200"){
-        this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+        this.history= response.data;
+        this.age=response.data[0].age;
+           //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
       }
     });
   }
@@ -105,7 +107,7 @@ export class EditProfilPasien {
        // this.data.login(response.data);
           
 
-          this.navCtrl.push(ProfilPasien);
+          // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',
           buttons: ['OK']
