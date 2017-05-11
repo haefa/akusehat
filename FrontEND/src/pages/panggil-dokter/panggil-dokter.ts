@@ -37,7 +37,7 @@ export class PanggilDokter {
 
 
 teleponDokter(){
-	this.callNumber.callNumber('{{telephone}}', true)
+	this.callNumber.callNumber(String(this.telephone) , true)
   .then(() => console.log('Launched dialer!'))
   .catch(() => console.log('Error launching dialer'));
 }
