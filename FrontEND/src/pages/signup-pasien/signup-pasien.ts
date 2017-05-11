@@ -33,7 +33,7 @@ export class SignupPasien {
 
   	let alert = this.alertCtrl.create({
       title: 'Kamu Terdaftar!',
-      subTitle: 'Harap lengkapi profil.',
+      subTitle: 'Silahkan Masuk <br><br> Harap lengkapi profil.',
       buttons: ['OK']
     });
     alert.present();

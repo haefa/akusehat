@@ -78,6 +78,12 @@ export class EditProfilPasien {
       if(response.status=="200"){
         this.history= response.data;
         this.age=response.data[0].age;
+        this.weight=response.data[0].weight;
+        this.height=response.data[0].height;
+        this.allergy=response.data[0].allergy;
+        this.disability=response.data[0].disability;
+        this.operation=response.data[0].operation;
+        this.description=response.data[0].description;
            //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
       }
     });

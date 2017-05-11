@@ -40,26 +40,30 @@
 				Email is required
 			</p>
 
-			<!--<ion-item>-->
+		
 				<ion-label padding-left stacked color="dark"><font size="2">Tekanan Darah</font></ion-label>
 				<ion-row>
-					<ion-col col-5>
-					<ion-input [(ngModel)]="sistol" placeholder="Sistolik (mmHg)" name="sistol" type="number" #sistolikk="ngModel" required>
+					<ion-col >
+					<ion-input text-center [(ngModel)]="sistol" placeholder="Sistolik (mmHg)" name="sistol" type="number" #sistolikk="ngModel" required>
 					</ion-input>
 					</ion-col>
-					<!--<ion-col col-2>
-						<p>/</p>
-					</ion-col>-->
-					<ion-col col-5>
-					<ion-input [(ngModel)]="diastol" placeholder="Diastolik (mmHg)" name="diastol" type="number" #diastolikk="ngModel" required>
+					
+					<ion-col text-center width-10>
+							<p>/ &nbsp;</p>
+					</ion-col>	
+						
+					<ion-col>
+					<ion-input text-center [(ngModel)]="diastol" placeholder="Diastolik (mmHg)" name="diastol" type="number" #diastolikk="ngModel" required>
 					</ion-input>
 					</ion-col>
 				</ion-row>
-				<ion-item></ion-item>
-			<!--</ion-item>-->
-			<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger" padding-left>
-				Tekanan Darah is required
-			</p>
+				<ion-item>
+							<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger" padding-left>
+									Tekanan Darah is required
+								</p>
+					</ion-item>
+		
+		
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Durasi Tidur</font></ion-label>
