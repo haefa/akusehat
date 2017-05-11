@@ -6,7 +6,7 @@ import { SignupPasien } from '../signup-pasien/signup-pasien';
 import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { NgForm } from '@angular/forms';
-
+import { Vibration } from '@ionic-native/vibration';
 
 @Component({
   selector: 'page-login-pasien',
@@ -18,7 +18,7 @@ export class LoginPasien {
   password:string;
   submitted = false;
   
-  constructor(public navCtrl: NavController, public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data) {
+  constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data) {
   }
 
   ionViewDidLoad() {
@@ -54,6 +54,7 @@ export class LoginPasien {
                 subTitle: 'Email atau Password salah!',      
                 buttons: ['OK']
               });
+              this.vibration.vibrate(1000);
               alert.present();
            }
 

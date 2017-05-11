@@ -5,6 +5,7 @@ import { LoginDokter } from '../login-dokter/login-dokter';
 import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { NgForm } from '@angular/forms';
+import { Vibration } from '@ionic-native/vibration';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class SignupDokter {
   name:string;
   email:string;
   password:string;
+  password2:string;
   sex:string;
   telephone:string;
   address:string;
@@ -26,9 +28,10 @@ export class SignupDokter {
 
 
   submitted= false;
+  submitted2= true;
 
 
-  constructor(public navCtrl: NavController, public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data) {
+  constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data) {
   }
 
   ionViewDidLoad() {
@@ -107,6 +110,8 @@ console.log(input);
         specialization:this.specialization,
         patients_max:this.patients_max
       });
+
+      if(this.password==this.password2){
         this.http.post(this.data.BASE_URL+"/register_doctors.php",input).subscribe(data => {
         let response = data.json();
 	  if(response.status=="200"){
@@ -126,6 +131,11 @@ console.log(input);
            }
 
       });
+    }
+    else {
+        this.vibration.vibrate(1000);
+        this.submitted2 = false;
+      }
     }
   }
 

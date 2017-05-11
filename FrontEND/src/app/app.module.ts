@@ -34,6 +34,8 @@ import { Data } from '../providers/data';
 import { CallNumber } from '@ionic-native/call-number';
 import {HttpModule} from '@angular/http';
 import {Storage } from '@ionic/storage';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { Vibration } from '@ionic-native/vibration';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,8 @@ import {Storage } from '@ionic/storage';
     Data,
     Storage,
     CallNumber,
+    BackgroundMode,
+    Vibration,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

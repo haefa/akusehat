@@ -7,6 +7,7 @@ import { SignupDokter } from '../signup-dokter/signup-dokter';
 import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { NgForm } from '@angular/forms';
+import { Vibration } from '@ionic-native/vibration';
 
 @Component({
   selector: 'page-login-dokter',
@@ -18,7 +19,7 @@ export class LoginDokter {
   password:string;
   submitted = false;  //ini di declare awalnya false dlu
 
-  constructor(public navCtrl: NavController,
+  constructor(private vibration: Vibration,public navCtrl: NavController,
   public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data) {
   }
 
@@ -56,6 +57,7 @@ export class LoginDokter {
                 subTitle: 'Email atau Password salah!',      
                 buttons: ['OK']
               });
+              this.vibration.vibrate(1000);
               alert.present();
            }
 

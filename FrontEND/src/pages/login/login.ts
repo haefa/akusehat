@@ -5,6 +5,8 @@ import { LoginPasien } from '../login-pasien/login-pasien';
 import { LoginDokter } from '../login-dokter/login-dokter';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { AkuSehat } from '../aku-sehat/aku-sehat';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
 
 @Component({
   selector: 'page-login',
@@ -12,7 +14,7 @@ import { AkuSehat } from '../aku-sehat/aku-sehat';
 })
 export class Login {
 
-  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams) {
+  constructor(private backgroundMode: BackgroundMode, public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -21,6 +23,12 @@ export class Login {
 
   }
 
+  ionViewWillEnter() {
+  this.backgroundMode.enable();
+
+  }
+
+  
   showBantuan(){
 	let alert = this.alertCtrl.create({
       title: '',

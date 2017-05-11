@@ -45,6 +45,15 @@
 			</p>
 
 			<ion-item>
+				<ion-label stacked color="dark"><font size="2">konfirmasi Password</font></ion-label>
+				<ion-input [(ngModel)]="password2" name="pass2" type="password" #passconfirm="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="submitted2 == true" color="danger" padding-left>
+				Password salah.
+			</p>
+
+			<ion-item>
 				<ion-label><font size="3" color="black">Jenis Kelamin</font></ion-label>
 				<ion-select [(ngModel)]="sex" name="sex" #jk="ngModel" required>
 				<ion-option value="L">Laki-laki</ion-option>

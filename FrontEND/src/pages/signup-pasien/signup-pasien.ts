@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { NgForm } from '@angular/forms';
+import { Vibration } from '@ionic-native/vibration';
 
 @Component({
   selector: 'page-signup-pasien',
@@ -15,14 +16,16 @@ export class SignupPasien {
   name:string;
   email:string;
   password:string;
+  password2:string;
   sex:string;
   telephone:string;
   address:string;
 
   submitted= false;
+  submitted2= true;
 
 
-  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data) {
+  constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data) {
   }
 
   ionViewDidLoad() {
@@ -93,9 +96,14 @@ console.log(input);
         sex:this.sex,
         telephone:this.telephone,
         address:this.address
+
+         
       });
+      if(this.password==this.password2){
+        // this.submitted2 = true;
         this.http.post(this.data.BASE_URL+"/register_patients.php",input).subscribe(data => {
         let response = data.json();
+        
 	  if(response.status=="200"){
 
        
@@ -113,6 +121,11 @@ console.log(input);
            }
 
       });
+    }
+    else {
+         this.vibration.vibrate(1000);
+        this.submitted2 = false;
+      }
     }
   }
 
