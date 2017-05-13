@@ -42,9 +42,11 @@ export class ProfilDokter {
       this.specialization = data.specialization;
       this.sum_patient = data.sum_patient;
 
+
+      this.getProfilDokter();
     })
 
-    this.getProfilDokter();
+    
 
   }
 
