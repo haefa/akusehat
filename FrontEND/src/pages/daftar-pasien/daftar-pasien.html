@@ -28,19 +28,21 @@
 
 
 
-<ion-item>
+<ion-item *ngFor="let data of pasien">
 	<ion-list>
 			<ion-item>
 					<ion-thumbnail item-left>
 						<img src="assets/pict/person-flat.png" style='height: 25vw; width: 25vw; display: block; margin: auto;'>
 					</ion-thumbnail>
 					<ion-item text-wrap>
-						<font size="4">Dummy{{name}}</font>
+						<font size="4"> {{data.name_patient}}</font>
 						<ion-row responsive-sm>
 							<ion-col>
 								 <ion-icon name="person" color="primary" (click)="profilPasien()" ></ion-icon>
 								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								 <ion-icon name="pulse" color="primary" (click)="harianPasien()" ></ion-icon>
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <ion-icon name="map" color="primary" (click)="harianPasien()" ></ion-icon>
 							</ion-col>
 						</ion-row>		
 					</ion-item>

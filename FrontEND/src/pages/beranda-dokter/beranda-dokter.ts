@@ -26,6 +26,8 @@ export class BerandaDokter {
   telephone:number;
   sum:number;
   no_tel_patient:number;
+
+  nomor:number;
   
 
 
@@ -57,8 +59,8 @@ export class BerandaDokter {
 
 
 
-  teleponPasien(){
-	this.callNumber.callNumber(String(this.no_tel_patient) , true)
+  teleponPasien(nomor){
+	this.callNumber.callNumber(String(this.nomor) , true)
   .then(() => console.log('Launched dialer!'))
   .catch(() => console.log('Error launching dialer'));
 

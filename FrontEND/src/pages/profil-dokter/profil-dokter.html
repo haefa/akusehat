@@ -75,13 +75,13 @@
 		<ion-item>
 	    <ion-icon name="ios-people" item-left></ion-icon>
 	     <font size="3">Jumlah Pasien Terkini</font>
-	     <p *ngFor="let data of profilDokter">{{data.sum}} orang</p>
+	     <p *ngFor="let data of profilDokterSum">{{data.sum}} orang</p>
 	  </ion-item>
 
 		<ion-item>
 	    <ion-icon name="" item-left></ion-icon>
 	     <font size="3">Jumlah Pasien Maksimal</font>
-	     <p>{{sum_patient}} orang</p>
+	     <p >{{sum_patient}} orang</p>
 	  </ion-item>
 	  
 	  <ion-item text-wrap>
@@ -93,7 +93,7 @@
 	  <ion-item text-wrap>
 	    <ion-icon name="ios-ribbon" item-left></ion-icon>
 	     <font size="3">Riwayat Bekerja</font>
-	     <p >{{data.experience}}</p>
+	     <p  *ngFor="let data of profilDokter">{{data.experience}}</p>
 	  </ion-item>
 	  
 
