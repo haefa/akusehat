@@ -92,7 +92,7 @@ export class EditProfilDokter {
        
        // this.data.login(response.data);
           
-          this.data.login(response.data);
+          this.data.login(response.data,"dokter");
           // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',

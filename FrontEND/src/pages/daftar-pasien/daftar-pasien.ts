@@ -63,8 +63,8 @@ export class DaftarPasien {
   }
 
 
-  profilPasien(){
-     this.navCtrl.push(ProfilPasienDokter);
+  profilPasien(data){
+     this.navCtrl.push(ProfilPasienDokter, data);
   }
   harianPasien(){
      this.navCtrl.push(ProfilPasienDokter);

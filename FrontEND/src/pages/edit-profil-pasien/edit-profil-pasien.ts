@@ -117,7 +117,7 @@ export class EditProfilPasien {
        
        // this.data.login(response.data);
           
-          this.data.login(response.data);
+          this.data.login(response.data,"pasien");
           // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',
