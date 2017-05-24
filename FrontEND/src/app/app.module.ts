@@ -29,6 +29,8 @@ import { ProfilDokter } from '../pages/profil-dokter/profil-dokter';
 import { ProfilPasienDokter } from '../pages/profil-pasien-dokter/profil-pasien-dokter';
 import { SignupDokter } from '../pages/signup-dokter/signup-dokter';
 import { DaftarPasien } from '../pages/daftar-pasien/daftar-pasien';
+import { HarianPasienPage } from '../pages/harian-pasien/harian-pasien';
+
 import { Data } from '../providers/data';
 
 import { CallNumber } from '@ionic-native/call-number';
@@ -68,6 +70,7 @@ import { Camera } from '@ionic-native/camera';
     AkuSehat,
     TabsDokter,
     DaftarPasien,
+    HarianPasienPage,
     TabsPage
   ],
   imports: [
@@ -101,6 +104,7 @@ import { Camera } from '@ionic-native/camera';
     AkuSehat,
     TabsDokter,
     DaftarPasien,
+    HarianPasienPage,
     TabsPage
   ],
   providers: [
