@@ -44,8 +44,8 @@ export class SignupPasien {
   akunBaru(){
 
   	let alert = this.alertCtrl.create({
-      title: 'Kamu Terdaftar!',
-      subTitle: 'Silahkan Masuk <br><br> Harap lengkapi profil.',
+      title: 'Selamat Kamu Terdaftar!',
+      subTitle: 'silahkan login.',
       buttons: ['OK']
     });
     alert.present();
@@ -112,7 +112,14 @@ console.log(input);
         password:this.password,
         sex:this.sex,
         telephone:this.telephone,
-        address:this.address
+        address:this.address,
+        age:this.age,
+        weight:this.weight,
+        height:this.height,
+        allergy:this.allergy,
+        operation:this.operation,
+        disability:this.disability,
+        description:this.description
 
          
       });
