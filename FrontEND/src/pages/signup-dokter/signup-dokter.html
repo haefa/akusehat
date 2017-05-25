@@ -69,13 +69,25 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>
-				<ion-input [(ngModel)]="telephone" name="telephone" type="number" #telpon="ngModel" required>
+				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" type="number" #telpon="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="telpon.valid || submitted == false" color="danger" padding-left>
-				Phone number is required
-			</p>
+			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
+				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
+				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
+			</div>
 
+
+			<!--<ion-item>
+				<ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>
+				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" type="number" #telpon="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
+				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
+				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
+			</div>
+-->
 
 			<ion-item>
 				<ion-label><font size="2" color="black">Rekening</font></ion-label>
@@ -94,12 +106,16 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Nomor Rekening</font></ion-label>
-				<ion-input [(ngModel)]="bank_number" name="bank_number" type="number" #rekening="ngModel" required>
+				<ion-input [(ngModel)]="bank_number" (ionChange)="checkRekening()" name="bank_number" type="number" #rekening="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="rekening.valid || submitted == false" color="danger" padding-left>
+			<!--<p ion-text [hidden]="rekening.valid || submitted == false" color="danger" padding-left>
 				Nomor Rekening is required
-			</p>
+			</p>-->
+			<div ion-text [hidden]="(rekening.valid || submitted == false) && bank_number>0"  padding-left>
+				<p color="danger" [hidden]="rekening.valid || submitted == false">Nomor Rekening is required</p>
+				<p color="danger" *ngIf="bank_number<0">Nomor Rekening salah</p>
+			</div>
 
 			<ion-item>
 				<ion-label><font size="2" color="black">Spesialisasi</font></ion-label>
@@ -118,12 +134,16 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Jumlah Pasien Maksimal</font></ion-label>
-				<ion-input [(ngModel)]="patients_max" name="patients_max" type="number" #maksimal="ngModel" required>
+				<ion-input [(ngModel)]="patients_max" (ionChange)="checkPasienmax()" name="patients_max" type="number" #maksimal="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="maksimal.valid || submitted == false" color="danger" padding-left>
+			<!--<p ion-text [hidden]="maksimal.valid || submitted == false" color="danger" padding-left>
 				Jumlah Pasien Maksimal is required
-			</p>
+			</p>-->
+			<div ion-text [hidden]="(maksimal.valid || submitted == false) && patients_max>0"  padding-left>
+				<p color="danger" [hidden]="maksimal.valid || submitted == false">Jumlah Pasien Maksimal is required</p>
+				<p color="danger" *ngIf="patients_max<0">Jumlah Pasien Maksimal must be positive</p>
+			</div>
 			
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Riwayat Pendidikan</font></ion-label>

@@ -7,6 +7,7 @@ import { PengaturanPasien } from '../pengaturan-pasien/pengaturan-pasien';
 import { ProfilDokterPasien } from '../profil-dokter-pasien/profil-dokter-pasien';
 import { Data } from '../../providers/data';
 import { Http } from '@angular/http';
+import { TambahRiwayatPage } from '../tambah-riwayat/tambah-riwayat';
 
 import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
@@ -75,6 +76,10 @@ export class ProfilPasien {
     });
     alert.present();
 
+  }
+
+  tambahRiwayat(){
+    this.navCtrl.push(TambahRiwayatPage);
   }
 
   doRefresh(refresher) {

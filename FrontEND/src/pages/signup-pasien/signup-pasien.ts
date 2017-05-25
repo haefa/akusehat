@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams,LoadingController } from 'ionic-angular';
 import { LoginPasien } from '../login-pasien/login-pasien';
 import { AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
@@ -23,7 +23,8 @@ export class SignupPasien {
   password:string;
   password2:string;
   sex:string;
-  telephone:string;
+  telephone:number;
+  telephoneMessage:string;
   address:string;
   choose_doctor:string;
 
@@ -39,8 +40,12 @@ export class SignupPasien {
   submitted= false;
   submitted2= true;
 
+  isValidFormTelephone= true;
+  isValidFormUmur= true;
+  isValidFormBB= true;
+  isValidFormTB= true;
 
-  constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data) {
+  constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data,public loadCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -48,6 +53,47 @@ export class SignupPasien {
   }
   ionViewWillEnter() {
     this.pilih_doctor();
+  }
+  checkTelephone(){
+    console.log(this.telephone);
+    if(this.telephone<0){
+      this.isValidFormTelephone=false;
+      // this.telephoneMessage = "Jangan minus coy";
+    } else {
+      // this.telephoneMessage=null;
+      this.isValidFormTelephone=true;
+    }
+
+  }
+
+  checkUmur(){
+    console.log(this.age);
+    if(this.age<0){
+      this.isValidFormUmur=false;
+      // this.ageMessage = "Jangan minus coy";
+    } else {
+      // this.telephoneMessage=null;
+      this.isValidFormUmur=true;
+    }
+
+  }
+
+  checkBB(){
+    console.log(this.weight);
+    if(this.weight<0){
+      this.isValidFormBB=false;
+    } else {
+      this.isValidFormBB=true;
+    }
+  }
+
+  checkTB(){
+    console.log(this.height);
+    if(this.height<0){
+      this.isValidFormTB=false;
+    } else {
+      this.isValidFormTB=true;
+    }
   }
 
   pilih_doctor(){
@@ -125,8 +171,17 @@ console.log(input);
 
 
   signup(form: NgForm){
+    let loading = this.loadCtrl.create({
+        content: 'mendaftarkan..'
+    });
+
     this.submitted = true;
-    if(form.valid){
+    this.checkTelephone();
+    this.checkUmur();
+    this.checkBB();
+    this.checkTB();
+    if(form.valid && this.isValidFormTelephone && this.isValidFormBB && this.isValidFormTB && this.isValidFormUmur){
+      loading.present();
       let input = JSON.stringify({
         name:this.name,
         email:this.email,
@@ -155,9 +210,12 @@ console.log(input);
        
        // this.data.login(response.data);
         this.akunBaru();
+        loading.dismiss();
       }
       else
            {
+             loading.dismiss();
+             this.vibration.vibrate(1000);
              let alert = this.alertCtrl.create({
                 title: 'Gagal Membuat Akun',
                 subTitle: 'Periksa kembali data.',      
@@ -169,10 +227,29 @@ console.log(input);
       });
     }
     else {
+        loading.dismiss();
          this.vibration.vibrate(1000);
-        this.submitted2 = false;
+         let alert = this.alertCtrl.create({
+                title: 'Gagal Membuat Akun',
+                subTitle: 'Periksa kembali data.',      
+                buttons: ['OK']
+              });
+              alert.present();
+         this.submitted2 = false;
       }
     }
+    else
+    {
+            loading.dismiss();
+            this.vibration.vibrate(1000);
+             let alert = this.alertCtrl.create({
+                title: 'Gagal Membuat Akun',
+                subTitle: 'Periksa kembali data.',      
+                buttons: ['OK']
+              });
+              alert.present();
+    }
+
   }
 
 
@@ -181,37 +258,13 @@ console.log(input);
     let alert = this.alertCtrl.create();
     alert.setTitle('Spesialisasi Dokter');
 
-
+for(let data of this.dokter){
     alert.addInput({
       type: 'radio',
-      label: 'Umum',
-      value: 'Umum',
-      checked: true
+      label: data.specialization,
+      value: data.specialization
     });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Anak',
-      value: 'Anak'
-    });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Gigi',
-      value: 'Gigi'
-    });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Kandungan',
-      value: 'Kandungan'
-    });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'THT',
-      value: 'THT'
-    });
+    }
 
     alert.addButton('Cancel');
     alert.addButton({
@@ -220,6 +273,7 @@ console.log(input);
         console.log('Radio data:', data);
         this.testRadioOpen = false;
         this.testRadioResult = data;
+        this.choose_doctor=data;
       }
     });
 

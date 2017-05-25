@@ -72,12 +72,13 @@ i
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>
-				<ion-input [(ngModel)]="telephone" name="telephone" type="number" #telpon="ngModel" required>
+				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" type="number" #telpon="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="telpon.valid || submitted == false" color="danger" padding-left>
-				Phone number is required
-			</p>
+			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
+				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
+				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
+			</div>
 
 
 			<ion-item>
@@ -93,30 +94,33 @@ i
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Umur (tahun)</font></ion-label>
-				<ion-input [(ngModel)]="age" name="age" type="number" #umur="ngModel" required placeholder="">
+				<ion-input [(ngModel)]="age" (ionChange)="checkUmur()" name="age" type="number" #umur="ngModel" required placeholder="" >
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="umur.valid || submitted == false" color="danger" padding-left>
-				Umur is required
-			</p>
+			<div ion-text [hidden]="(umur.valid || submitted == false) && age>0"  padding-left>
+				<p color="danger" [hidden]="umur.valid || submitted == false">Umur is required</p>
+				<p color="danger" *ngIf="age<0">Umur must be positive</p>
+			</div>
 			
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Berat Badan (kg)</font></ion-label>
-				<ion-input [(ngModel)]="weight" name="weight" type="number" #berat="ngModel" required placeholder="">
+				<ion-input [(ngModel)]="weight" (ionChange)="checkBB()" name="weight" type="number" #berat="ngModel" required placeholder="">
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="berat.valid || submitted == false" color="danger" padding-left>
-				Berat badan is required
-			</p>
+			<div ion-text [hidden]="(berat.valid || submitted == false) && weight>0"  padding-left>
+				<p color="danger" [hidden]="berat.valid || submitted == false">Berat badan is required</p>
+				<p color="danger" *ngIf="weight<0">Berat badan must be positive</p>
+			</div>
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Tinggi Badan (cm)</font></ion-label>
-				<ion-input [(ngModel)]="height" name="height" type="number" #tinggi="ngModel" required placeholder="">
+				<ion-input [(ngModel)]="height" (ionChange)="checkTB()" min="0" name="height" type="number" #tinggi="ngModel" required placeholder="">
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="tinggi.valid || submitted == false" color="danger" padding-left>
-				Tinggi badan is required
-			</p>
+			<div ion-text [hidden]="(tinggi.valid || submitted == false) && height>0"  padding-left>
+				<p color="danger" [hidden]="tinggi.valid || submitted == false">Tinggi badan is required</p>
+				<p color="danger" *ngIf="height<0">Tinggi badan must be positive</p>
+			</div>
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Alergi</font></ion-label>
@@ -154,21 +158,20 @@ i
 				Deskripsi Kesehatan is required
 			</p>
 
-			<ion-item>
-				<ion-label><font size="2" color="black">Pilih Spesialisasi Dokter</font></ion-label>
-				<ion-select [(ngModel)]="choose_doctor" name="choose_doctor" #pilih="ngModel" required>
-				<ion-option *ngFor="let data of dokter" value="{{data.specialization}}">{{data.specialization}}</ion-option>
-				</ion-select>
-			</ion-item>
-			<p ion-text [hidden]="pilih.valid || submitted == false" color="danger" padding-left>
-				Select one
-			</p>
+			
 
 		</ion-list>
 
 		<ion-row responsive-sm>
 			<ion-col>
-				<button center block  outline ion-button round (click)="doRadio()">Pilih Dokter</button>
+				<button center block  outline ion-button round (click)="doRadio()">
+					<div *ngIf="!choose_doctor">Pilih Dokter</div>
+					<div *ngIf="choose_doctor">Dokter {{choose_doctor}}</div>
+				</button>
+				
+				<p ion-text [hidden]="choose_doctor || submitted == false" color="danger" padding-left>
+				Select one
+			</p>
 			</ion-col>
 			<ion-col>
 				<button ion-button block (click)="signup(signupForm)" type="submit">DAFTAR</button>

@@ -21422,3 +21422,18 @@ page-tabs .indicatorSegment {
   height: 2px;
   background-color: rgba(138, 34, 40, 0.98) !important;
 }
+
+page-tambah-riwayat .text-input::-webkit-input-placeholder {
+  color: #bcc0c6;
+  font-size: 85%;
+}
+
+page-tambah-riwayat .text-input:-ms-input-placeholder {
+  color: #bcc0c6;
+  font-size: 85%;
+}
+
+page-tambah-riwayat .text-input::placeholder {
+  color: #bcc0c6;
+  font-size: 85%;
+}
