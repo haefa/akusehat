@@ -26,7 +26,7 @@
 				</ion-input>
 			</ion-item>
       <p ion-text [hidden]="penyakit.valid || submitted == false" color="danger" padding-left>
-				Nama Penyakit is required
+				Nama Penyakit harus diisi
 			</p>
 
       <ion-item>
@@ -36,7 +36,7 @@
 				</ion-input>
 			</ion-item>
       <p ion-text [hidden]="dirawat.valid || submitted == false" color="danger" padding-left>
-				Tanggal dirawat is required
+				Tanggal dirawat harus diisi
 			</p>
 
 
@@ -49,8 +49,8 @@
 				Jumlah Pasien Maksimal is required
 			</p>-->
 			<div ion-text [hidden]="(lama.valid || submitted == false) && hospitalized_long>0"  padding-left>
-				<p color="danger" [hidden]="lama.valid || submitted == false">Lama dirawat is required</p>
-				<p color="danger" *ngIf="hospitalized_long<0">Lama dirawat must be positive</p>
+				<p color="danger" [hidden]="lama.valid || submitted == false">Lama dirawat harus diisi</p>
+				<p color="danger" *ngIf="hospitalized_long<0">Lama dirawat salah</p>
 			</div>
 
 			

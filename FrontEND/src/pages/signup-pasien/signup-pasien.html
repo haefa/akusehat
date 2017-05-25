@@ -25,7 +25,7 @@ i
 			</ion-item>
 			
 			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
-				Name is required
+				Nama harus diisi
 			</p>
 
 			<ion-item>
@@ -36,7 +36,7 @@ i
 			</ion-item>
 			
 			<p ion-text [hidden]="mail.valid || submitted == false" color="danger" padding-left>
-				Email is required
+				Email harus diisi
 			</p>
 
 			<ion-item>
@@ -45,7 +45,7 @@ i
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="pass.valid || submitted == false" color="danger" padding-left>
-				Password is required
+				Password harus diisi
 			</p>
 
 			<ion-item>
@@ -53,9 +53,12 @@ i
 				<ion-input [(ngModel)]="password2" name="pass2" type="password" #passconfirm="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="submitted2 == true" color="danger" padding-left>
-				Password salah.
-			</p>
+			<!--<p ion-text [hidden]="submitted2 == true" color="danger" padding-left>
+				Password salah
+			</p>-->
+			<div ion-text [hidden]="submitted2==true && password2==password"  padding-left>
+				<p color="danger" *ngIf="password2!=null">Password salah</p>
+			</div>
 
 			<ion-item>
 				<ion-label><font size="2" color="black">Jenis Kelamin</font></ion-label>
@@ -66,7 +69,7 @@ i
 			</ion-item>
 
 			<p ion-text [hidden]="jk.valid || submitted == false" color="danger" padding-left>
-				Select one
+				Pilih satu
 			</p>
 
 
@@ -76,8 +79,8 @@ i
 				</ion-input>
 			</ion-item>
 			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
-				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
-				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
+				<p color="danger" [hidden]="telpon.valid || submitted == false">Nomor Telepon harus diisi</p>
+				<p color="danger" *ngIf="telephone<0">Nomor Telepon salah</p>
 			</div>
 
 
@@ -86,7 +89,7 @@ i
 				<ion-textarea  [(ngModel)]="address" name="address" type="text" #alamat="ngModel" required autosize></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="alamat.valid || submitted == false" color="danger" padding-left>
-				Address is required
+				Address harus diisi
 			</p>
 
 			<ion-item></ion-item>
@@ -98,8 +101,8 @@ i
 				</ion-input>
 			</ion-item>
 			<div ion-text [hidden]="(umur.valid || submitted == false) && age>0"  padding-left>
-				<p color="danger" [hidden]="umur.valid || submitted == false">Umur is required</p>
-				<p color="danger" *ngIf="age<0">Umur must be positive</p>
+				<p color="danger" [hidden]="umur.valid || submitted == false">Umur harus diisi</p>
+				<p color="danger" *ngIf="age<0">Umur salah</p>
 			</div>
 			
 			<ion-item>
@@ -108,8 +111,8 @@ i
 				</ion-input>
 			</ion-item>
 			<div ion-text [hidden]="(berat.valid || submitted == false) && weight>0"  padding-left>
-				<p color="danger" [hidden]="berat.valid || submitted == false">Berat badan is required</p>
-				<p color="danger" *ngIf="weight<0">Berat badan must be positive</p>
+				<p color="danger" [hidden]="berat.valid || submitted == false">Berat badan harus diisi</p>
+				<p color="danger" *ngIf="weight<0">Berat badan salah</p>
 			</div>
 
 			<ion-item>
@@ -118,8 +121,8 @@ i
 				</ion-input>
 			</ion-item>
 			<div ion-text [hidden]="(tinggi.valid || submitted == false) && height>0"  padding-left>
-				<p color="danger" [hidden]="tinggi.valid || submitted == false">Tinggi badan is required</p>
-				<p color="danger" *ngIf="height<0">Tinggi badan must be positive</p>
+				<p color="danger" [hidden]="tinggi.valid || submitted == false">Tinggi badan harus diisi</p>
+				<p color="danger" *ngIf="height<0">Tinggi badan salah</p>
 			</div>
 
 			<ion-item>
@@ -128,7 +131,7 @@ i
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="alergi.valid || submitted == false" color="danger" padding-left>
-				Isi dengan '-' bila tidak ada.
+				Isi dengan "-" bila tidak ada.
 			</p>
 
 			<ion-item>
@@ -137,7 +140,7 @@ i
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="cacat.valid || submitted == false" color="danger" padding-left>
-				Isi dengan '-' bila tidak ada.
+				Isi dengan "-" bila tidak ada.
 			</p>
 
 			<ion-item>
@@ -146,16 +149,16 @@ i
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="operasi.valid || submitted == false" color="danger" padding-left>
-				Isi dengan '-' bila tidak ada.
+				Isi dengan "-" bila tidak ada.
 			</p>
 
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Deskripsi Kesehatan</font></ion-label>
-				<ion-textarea  [(ngModel)]="description" name="description" type="text" #deskripsi="ngModel" required autosize></ion-textarea>
+				<ion-textarea placeholder="Deskripsi lengkap kesehatan saat ini."  [(ngModel)]="description" name="description" type="text" #deskripsi="ngModel" required autosize></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
-				Deskripsi Kesehatan is required
+				Deskripsi Kesehatan harus diisi
 			</p>
 
 			
@@ -170,7 +173,7 @@ i
 				</button>
 				
 				<p ion-text [hidden]="choose_doctor || submitted == false" color="danger" padding-left>
-				Select one
+				Pilih satu
 			</p>
 			</ion-col>
 			<ion-col>

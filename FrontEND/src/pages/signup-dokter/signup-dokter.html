@@ -22,7 +22,7 @@
 			</ion-item>
 			
 			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
-				Name is required
+				Nama harus diisi
 			</p>
 
 			<ion-item>
@@ -33,7 +33,7 @@
 			</ion-item>
 			
 			<p ion-text [hidden]="mail.valid || submitted == false" color="danger" padding-left>
-				Email is required
+				Email harus diisi
 			</p>
 
 			<ion-item>
@@ -42,17 +42,21 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="pass.valid || submitted == false" color="danger" padding-left>
-				Password is required
+				Password harus diisi
 			</p>
+
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">konfirmasi Password</font></ion-label>
 				<ion-input [(ngModel)]="password2" name="pass2" type="password" #passconfirm="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="submitted2 == true" color="danger" padding-left>
-				Password salah.
-			</p>
+			<!--<p ion-text [hidden]="submitted2 == true" color="danger" padding-left>
+				Password salah
+			</p>-->
+			<div ion-text [hidden]="submitted2==true && password2==password"  padding-left>
+				<p color="danger" *ngIf="password2!=null">Password salah</p>
+			</div>
 
 			<ion-item>
 				<ion-label><font size="2" color="black">Jenis Kelamin</font></ion-label>
@@ -63,7 +67,7 @@
 			</ion-item>
 
 			<p ion-text [hidden]="jk.valid || submitted == false" color="danger" padding-left>
-				Select one
+				Pilih satu
 			</p>
 
 
@@ -74,7 +78,7 @@
 			</ion-item>
 			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
 				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
-				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
+				<p color="danger" *ngIf="telephone<0">Nomor Telepon salah</p>
 			</div>
 
 
@@ -101,7 +105,7 @@
 			</ion-item>
 
 			<p ion-text [hidden]="bang.valid || submitted == false" color="danger" padding-left>
-				Select one
+				Pilih satu
 			</p>
 
 			<ion-item>
@@ -113,7 +117,7 @@
 				Nomor Rekening is required
 			</p>-->
 			<div ion-text [hidden]="(rekening.valid || submitted == false) && bank_number>0"  padding-left>
-				<p color="danger" [hidden]="rekening.valid || submitted == false">Nomor Rekening is required</p>
+				<p color="danger" [hidden]="rekening.valid || submitted == false">Nomor Rekening harus diisi</p>
 				<p color="danger" *ngIf="bank_number<0">Nomor Rekening salah</p>
 			</div>
 
@@ -129,7 +133,7 @@
 			</ion-item>
 
 			<p ion-text [hidden]="spesialisasi.valid || submitted == false" color="danger" padding-left>
-				Select one
+				Pilih satu
 			</p>
 
 			<ion-item>
@@ -141,8 +145,8 @@
 				Jumlah Pasien Maksimal is required
 			</p>-->
 			<div ion-text [hidden]="(maksimal.valid || submitted == false) && patients_max>0"  padding-left>
-				<p color="danger" [hidden]="maksimal.valid || submitted == false">Jumlah Pasien Maksimal is required</p>
-				<p color="danger" *ngIf="patients_max<0">Jumlah Pasien Maksimal must be positive</p>
+				<p color="danger" [hidden]="maksimal.valid || submitted == false">Jumlah Pasien Maksimal harus diisi</p>
+				<p color="danger" *ngIf="patients_max<0">Jumlah Pasien Maksimal salah</p>
 			</div>
 			
 			<ion-item>
@@ -151,7 +155,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="pengalaman.valid || submitted == false" color="danger" padding-left>
-				Riwayat pendidikan is required
+				Riwayat pendidikan harus diisi
 			</p>
 
 			<ion-item>
@@ -160,7 +164,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="pengalaman.valid || submitted == false" color="danger" padding-left>
-				Riwayat bekerja is required
+				Riwayat bekerja harus diisi
 			</p>
 
 			<ion-item>
@@ -169,7 +173,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="rs.valid || submitted == false" color="danger" padding-left>
-				Rumah sakit saat ini is required
+				Rumah sakit saat ini harus diisi
 			</p>
 
 		</ion-list>

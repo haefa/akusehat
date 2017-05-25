@@ -62,7 +62,7 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Durasi Tidur</font></ion-label>
-				<ion-input [(ngModel)]="duration" name="duration" type="number" #tidurr="ngModel" spellcheck="false" autocapitalize="off"
+				<ion-input [(ngModel)]="duration" placeholder="(jam)" name="duration" type="number" #tidurr="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
 			</ion-item>
@@ -73,7 +73,7 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Deskripsi</font></ion-label>
-				<ion-textarea [(ngModel)]="description" name="description" type="text" #deskripsii="ngModel" spellcheck="false" autocapitalize="off"
+				<ion-textarea [(ngModel)]="description" name="description" type="text" #deskripsii="ngModel" placeholder="Deskripsi hari ini" spellcheck="false" autocapitalize="off"
 					autosize text-wrap required>
 				</ion-textarea>
 			</ion-item>

@@ -212,6 +212,16 @@ console.log(input);
         this.akunBaru();
         loading.dismiss();
       }
+      else if(response.status=="409"){
+             loading.dismiss();
+             this.vibration.vibrate(1000);
+             let alert = this.alertCtrl.create({
+                title: 'Email sudah terdaftar',
+                subTitle: 'Silahkan pilih email lain.',      
+                buttons: ['OK']
+              });
+              alert.present();
+      }
       else
            {
              loading.dismiss();
