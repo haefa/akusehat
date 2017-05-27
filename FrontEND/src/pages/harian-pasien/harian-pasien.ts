@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Data } from '../../providers/data';
 import { Http } from '@angular/http';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-harian-pasien',
@@ -18,6 +19,9 @@ export class HarianPasienPage {
   id_patient:number;
   address_patient:string;
   date_daily:string;
+  
+
+  
 
   constructor(public navCtrl: NavController,public data: Data,public http: Http, public navParams: NavParams) {
 
@@ -36,6 +40,16 @@ export class HarianPasienPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HarianPasienPage');
   }
+
+  ionViewWillEnter() {
+    var now = moment();
+    this.date_daily = moment(now.format(), moment.ISO_8601).format();
+    
+  }
+  changeDateFilter(date){
+    this.date_daily = moment(date).format('MM-YYYY');
+    this.getDataKesehatan();
+    }
 
 
    getDataKesehatan(){

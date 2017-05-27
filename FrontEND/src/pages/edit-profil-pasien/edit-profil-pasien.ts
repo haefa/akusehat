@@ -68,6 +68,7 @@ export class EditProfilPasien {
 
     this.editProfil();
   	this.navCtrl.push(ProfilPasien);
+    this.ionViewWillEnter();
   }
 
 
@@ -117,10 +118,11 @@ export class EditProfilPasien {
        
        // this.data.login(response.data);
           
-          this.data.login(response.data,"pasien");
+          this.data.login(response.data,"pasien"); //ini buat nyimpen data baru ke providers lagi ,, jadi overwrite gitu
           // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',
+          subTitle: 'Lakukan refresh dengan cara menarik halaman kebawah',
           buttons: ['OK']
           });
           alert.present();

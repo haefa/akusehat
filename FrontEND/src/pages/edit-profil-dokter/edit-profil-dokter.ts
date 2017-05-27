@@ -96,6 +96,7 @@ export class EditProfilDokter {
           // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
           title: 'Data Tersimpan!',
+          subTitle: 'Lakukan refresh dengan cara menarik halaman kebawah',
           buttons: ['OK']
           });
           alert.present();

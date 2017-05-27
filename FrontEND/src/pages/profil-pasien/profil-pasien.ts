@@ -62,6 +62,7 @@ export class ProfilPasien {
       this.getRiwayatKesehatan();
       this.getDataHistory();
     })
+    
 
   }
 

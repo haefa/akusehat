@@ -44,6 +44,7 @@ export class SignupPasien {
   isValidFormUmur= true;
   isValidFormBB= true;
   isValidFormTB= true;
+  isValidFormChoose = false;
 
   constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data,public loadCtrl: LoadingController) {
   }
@@ -95,6 +96,11 @@ export class SignupPasien {
       this.isValidFormTB=true;
     }
   }
+  checkDokter(){
+    this.isValidFormChoose=true;
+    
+  }
+  
 
   pilih_doctor(){
     this.http.get(this.data.BASE_URL+"/choose_doctor.php").subscribe(data => {
@@ -180,7 +186,7 @@ console.log(input);
     this.checkUmur();
     this.checkBB();
     this.checkTB();
-    if(form.valid && this.isValidFormTelephone && this.isValidFormBB && this.isValidFormTB && this.isValidFormUmur){
+    if(form.valid && this.isValidFormChoose && this.isValidFormTelephone && this.isValidFormBB && this.isValidFormTB && this.isValidFormUmur){
       loading.present();
       let input = JSON.stringify({
         name:this.name,
@@ -284,6 +290,7 @@ for(let data of this.dokter){
         this.testRadioOpen = false;
         this.testRadioResult = data;
         this.choose_doctor=data;
+        this.checkDokter();
       }
     });
 

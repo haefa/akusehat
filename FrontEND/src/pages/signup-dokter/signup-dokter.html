@@ -73,25 +73,16 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>
-				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" type="number" #telpon="ngModel" required>
+				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" pattern="[0]{1}[0-9]{1,}" maxlength="13" type="number" #telpon="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
-				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
-				<p color="danger" *ngIf="telephone<0">Nomor Telepon salah</p>
+			<div ion-text [hidden]="telpon.valid || submitted == false"  padding-left>
+				<p color="danger" *ngIf="!telephone">Nomor Telepon harus diisi</p>
+				<p color="danger" *ngIf="telephone">Nomor Telepon salah</p>
 			</div>
 
 
-			<!--<ion-item>
-				<ion-label stacked color="dark"><font size="2">Nomor Telepon</font></ion-label>
-				<ion-input [(ngModel)]="telephone" (ionChange)="checkTelephone()" name="telephone" type="number" #telpon="ngModel" required>
-				</ion-input>
-			</ion-item>
-			<div ion-text [hidden]="(telpon.valid || submitted == false) && telephone>0"  padding-left>
-				<p color="danger" [hidden]="telpon.valid || submitted == false">Phone number is required</p>
-				<p color="danger" *ngIf="telephone<0">Phone number must be positive</p>
-			</div>
--->
+			
 
 			<ion-item>
 				<ion-label><font size="2" color="black">Rekening</font></ion-label>
@@ -110,15 +101,15 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Nomor Rekening</font></ion-label>
-				<ion-input [(ngModel)]="bank_number" (ionChange)="checkRekening()" name="bank_number" type="number" #rekening="ngModel" required>
+				<ion-input [(ngModel)]="bank_number" (ionChange)="checkRekening()" name="bank_number" type="number" #rekening="ngModel" pattern="[0-9]{1}[0-9]{1,}" maxlength="30" required>
 				</ion-input>
 			</ion-item>
 			<!--<p ion-text [hidden]="rekening.valid || submitted == false" color="danger" padding-left>
 				Nomor Rekening is required
 			</p>-->
-			<div ion-text [hidden]="(rekening.valid || submitted == false) && bank_number>0"  padding-left>
-				<p color="danger" [hidden]="rekening.valid || submitted == false">Nomor Rekening harus diisi</p>
-				<p color="danger" *ngIf="bank_number<0">Nomor Rekening salah</p>
+			<div ion-text [hidden]="rekening.valid || submitted == false"  padding-left>
+				<p color="danger" *ngIf="!bank_number">Nomor Rekening harus diisi</p>
+				<p color="danger" *ngIf="bank_number">Nomor Rekening salah</p>
 			</div>
 
 			<ion-item>

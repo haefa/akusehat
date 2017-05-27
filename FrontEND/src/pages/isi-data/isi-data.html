@@ -51,13 +51,27 @@
 					<ion-input text-center [(ngModel)]="diastol" placeholder="Diastolik" name="diastol" type="number" #diastolikk="ngModel" value="" required>
 					</ion-input>
 					</ion-col>
+					
 				</ion-row>
-				<ion-item>
-							<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger" padding-left>
-									Tekanan Darah is required
+				<ion-row>
+					
+					
+					<ion-col text-center>
+							<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger">
+									Tekanan Darah harus diisi
 								</p>
-					</ion-item>
-		
+					</ion-col>	
+						
+					
+					
+				</ion-row>
+				<!--<ion-row>
+					<ion-col text-centre>
+					<p ion-text [hidden]="diastolikk.valid && sistolikk.valid || submitted == false" color="danger">
+									Tekanan Darah harus diisi
+								</p>
+					</ion-col>
+				</ion-row>-->
 		
 
 			<ion-item>
@@ -68,7 +82,7 @@
 			</ion-item>
 			
 			<p ion-text [hidden]="tidurr.valid || submitted == false" color="danger" padding-left>
-				Durasi Tidur is required
+				Durasi Tidur harus diisi
 			</p>
 
 			<ion-item>
@@ -79,7 +93,7 @@
 			</ion-item>
 			
 			<p ion-text [hidden]="deskripsii.valid || submitted == false" color="danger" padding-left>
-				Deskripsi is required
+				Deskripsi harus diisi
 			</p>
 
 		</ion-list>
