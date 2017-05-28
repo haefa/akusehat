@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="{{theme}}">
     <ion-title>
       Beranda
     </ion-title>
-  </ion-navbar>		
+  </ion-navbar>	
 </ion-header>
 
 
@@ -23,8 +23,8 @@
   <!-- Real floating action button, fixed. It will not scroll with the content -->
 
 
-  <ion-fab bottom right>
-    <button ion-fab mini><ion-icon name="ios-menu"></ion-icon></button>
+  <ion-fab bottom right >
+    <button color="{{theme}}" ion-fab mini><ion-icon  name="ios-menu"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab (click)='gotoSettings()'><ion-icon name="ios-settings"></ion-icon></button>
       <button ion-fab (click)='gotoAbout()'><ion-icon name="information"></ion-icon></button>
@@ -83,6 +83,11 @@
 
 	</ion-item>
 
-<ion-item no-lines></ion-item>
+	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+ 	</ion-infinite-scroll>
+
+
+<!--<ion-item no-lines></ion-item>-->
 
 </ion-content>

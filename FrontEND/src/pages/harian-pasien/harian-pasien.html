@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="{{theme}}">
     <ion-title>
       Data Harian Pasien
     </ion-title>
@@ -47,7 +47,7 @@
       <ion-col no-padding [hidden]="segment=='now'">
          <ion-item  item-center> 	
            <ion-label stacked text-center><font size="3">Pilih Bulan dan Tahun</font></ion-label>
-          <ion-datetime class="tanggal" text-center displayFormat="MMMM YYYY" pickerFormat="MM YYYY" [(ngModel)]="date_daily" (ionChange)="changeDateFilter(dateFilter)" name="date_daily" min="2000" #date="ngModel" required >
+          <ion-datetime class="tanggal" text-center displayFormat="MMMM YYYY" pickerFormat="MM YYYY" [(ngModel)]="date_daily" (ionChange)="changeDateFilter(date_daily)" name="date_daily" min="2000" #date="ngModel" required >
           </ion-datetime>
         </ion-item>
       </ion-col>

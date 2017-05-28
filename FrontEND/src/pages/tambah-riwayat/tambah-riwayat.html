@@ -1,6 +1,6 @@
 
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="{{theme}}">
     <ion-title>
       Tambah Riwayat Penyakit
     </ion-title>
@@ -58,7 +58,7 @@
 
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button (click)="simpanData(simpanDataForm)" type="submit" block>Tambahkan</button>
+				<button color="{{theme}}" ion-button (click)="simpanData(simpanDataForm)" type="submit" block>Tambahkan</button>
 			</ion-col>
 		</ion-row>	
 	</form>

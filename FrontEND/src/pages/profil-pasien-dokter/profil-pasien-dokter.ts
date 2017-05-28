@@ -14,6 +14,7 @@ export class ProfilPasienDokter {
   history : any;
   history2 : any;
 
+  theme:string;
 
   id_doctor:number;
   email:string;
@@ -46,6 +47,12 @@ export class ProfilPasienDokter {
   ionViewWillEnter() {
     //ini ni ngambil value yang di return dari data.ts
     
+    this.data.getDataDokter().then((data) => {
+    
+      this.theme= data.theme;
+      
+    })
+
   }
 
 

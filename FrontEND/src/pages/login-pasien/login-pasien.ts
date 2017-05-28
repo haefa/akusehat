@@ -53,7 +53,7 @@ export class LoginPasien {
         
 	if(response.status=="200"){
         //console.log(response);
-        this.data.login(response.data,"pasien");
+        this.data.login(response.data,"pasien");//input data ke local storage
         this.gotoTab();
         loading.dismiss();
       }

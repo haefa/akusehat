@@ -24,6 +24,8 @@ declare var cordova: any;
 })
 export class ProfilPasien {
 
+  theme:string;
+
   history: any;
   history2: any;
 
@@ -57,6 +59,7 @@ export class ProfilPasien {
       this.address_patient = data.address_patient;
       this.name_doctor = data.name_doctor;
       this.id_patient = data.id_patient;
+      this.theme= data.theme;
       //this.id_doctor = data.id_doct;
       
       this.getRiwayatKesehatan();

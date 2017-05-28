@@ -11,6 +11,7 @@ import { Http } from '@angular/http';
 })
 export class EditProfilDokter {
 
+  theme: string;
 
   profilDokter: any;
   profilDokterSum : any;
@@ -45,6 +46,7 @@ export class EditProfilDokter {
       this.no_account_doctor = data.no_account_doctor;
       this.specialization = data.specialization;
       this.sum_patient = data.sum_patient;
+       this.theme= data.theme;
       
        this.getProfilDokter();
     })

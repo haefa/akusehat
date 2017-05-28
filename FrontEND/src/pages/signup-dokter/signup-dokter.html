@@ -77,8 +77,8 @@
 				</ion-input>
 			</ion-item>
 			<div ion-text [hidden]="telpon.valid || submitted == false"  padding-left>
-				<p color="danger" *ngIf="!telephone">Nomor Telepon harus diisi</p>
-				<p color="danger" *ngIf="telephone">Nomor Telepon salah</p>
+				<p color="danger" *ngIf="!telephone">Nomor telepon harus diisi</p>
+				<p color="danger" *ngIf="telephone">Nomor telepon salah</p>
 			</div>
 
 
@@ -108,8 +108,8 @@
 				Nomor Rekening is required
 			</p>-->
 			<div ion-text [hidden]="rekening.valid || submitted == false"  padding-left>
-				<p color="danger" *ngIf="!bank_number">Nomor Rekening harus diisi</p>
-				<p color="danger" *ngIf="bank_number">Nomor Rekening salah</p>
+				<p color="danger" *ngIf="!bank_number">Nomor rekening harus diisi</p>
+				<p color="danger" *ngIf="bank_number">Nomor rekening salah</p>
 			</div>
 
 			<ion-item>
@@ -137,7 +137,7 @@
 			</p>-->
 			<div ion-text [hidden]="(maksimal.valid || submitted == false) && patients_max>0"  padding-left>
 				<p color="danger" [hidden]="maksimal.valid || submitted == false">Jumlah Pasien Maksimal harus diisi</p>
-				<p color="danger" *ngIf="patients_max<0">Jumlah Pasien Maksimal salah</p>
+				<p color="danger" *ngIf="patients_max<0">Jumlah pasien maksimal salah</p>
 			</div>
 			
 			<ion-item>

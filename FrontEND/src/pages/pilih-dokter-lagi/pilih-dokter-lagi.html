@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="{{theme}}">
     <ion-title>
       Pilih Dokter
     </ion-title>
@@ -35,8 +35,8 @@
 					<div *ngIf="choose_doctor">Dokter {{choose_doctor}}</div>
 				</button>
 				
-				<p ion-text [hidden]="choose_doctor || submitted == false" color="danger" padding-left>
-				Pilih satu
+				<p ion-text text-center [hidden]="choose_doctor || submitted == false" color="danger" padding-left>
+				Pilih satu spesialisasi dokter
 			</p>
 			</ion-col>
 		</ion-row>

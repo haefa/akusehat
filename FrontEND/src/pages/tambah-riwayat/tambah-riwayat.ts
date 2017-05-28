@@ -21,6 +21,8 @@ export class TambahRiwayatPage {
 
   isValidFormLama= true;
 
+  theme: string;
+
   constructor(public navCtrl: NavController,
   public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data,public loadCtrl: LoadingController) {}
 
@@ -34,6 +36,7 @@ export class TambahRiwayatPage {
     //ini ni ngambil value yang di return dari data.ts
     this.data.getDataPasien().then((data) => {
       this.id_patient = data.id_patient;
+      this.theme= data.theme;
     })
 
   }

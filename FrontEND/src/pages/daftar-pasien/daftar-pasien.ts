@@ -15,7 +15,7 @@ import { Vibration } from '@ionic-native/vibration';
 })
 export class DaftarPasien {
 
-
+theme: string;
 
   pasien: any;
   name:string;
@@ -47,6 +47,7 @@ export class DaftarPasien {
       // this.bank_number = data.no_account_doctor;
       // this.telephone = data.no_tel_doctor;
       // this.bank = data.bank_doctor;
+       this.theme= data.theme;
       // this.sum = data.sum_patient;
       this.getDataPasien();
 

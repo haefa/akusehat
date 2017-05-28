@@ -31,6 +31,9 @@ import { DaftarPasien } from '../pages/daftar-pasien/daftar-pasien';
 import { HarianPasienPage } from '../pages/harian-pasien/harian-pasien';
 import { TambahRiwayatPage } from '../pages/tambah-riwayat/tambah-riwayat';
 import { PilihDokterLagiPage } from '../pages/pilih-dokter-lagi/pilih-dokter-lagi';
+import { ThemePage } from '../pages/theme/theme';
+import { ThemeDoctorPage } from '../pages/theme-doctor/theme-doctor';
+
 
 import { Data } from '../providers/data';
 
@@ -73,6 +76,8 @@ import { Camera } from '@ionic-native/camera';
     HarianPasienPage,
     TambahRiwayatPage,
     PilihDokterLagiPage,
+    ThemePage,
+    ThemeDoctorPage,
     TabsPage
   ],
   imports: [
@@ -108,6 +113,8 @@ import { Camera } from '@ionic-native/camera';
     HarianPasienPage,
     TambahRiwayatPage,
     PilihDokterLagiPage,
+    ThemePage,
+    ThemeDoctorPage,
     TabsPage
   ],
   providers: [

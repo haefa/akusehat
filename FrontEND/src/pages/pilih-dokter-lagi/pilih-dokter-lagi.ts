@@ -16,6 +16,7 @@ export class PilihDokterLagiPage {
 
   dokter:any;
   id_patient:number;
+  theme:string;
 
   testRadioOpen: boolean;
   testRadioResult;
@@ -23,6 +24,7 @@ export class PilihDokterLagiPage {
   choose_doctor:string;
 
   submitted = false;
+  isValidFormChoose = false;
 
   constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http,public alertCtrl: AlertController , public navParams: NavParams, public data: Data,public loadCtrl: LoadingController) {
   }
@@ -40,6 +42,7 @@ export class PilihDokterLagiPage {
     //ini ni ngambil value yang di return dari data.ts
     this.data.getDataPasien().then((data) => {
       this.id_patient = data.id_patient;
+      this.theme= data.theme;
       
       this.http.get(this.data.BASE_URL+"/choose_doctor.php").subscribe(data => {
       let response = data.json();
@@ -50,6 +53,10 @@ export class PilihDokterLagiPage {
     });
     })
 
+  }
+  checkDokter(){
+    this.isValidFormChoose=true;
+    
   }
 
   
@@ -75,6 +82,7 @@ for(let data of this.dokter){
         this.testRadioOpen = false;
         this.testRadioResult = data;
         this.choose_doctor=data;
+        this.checkDokter();
       }
     });
 
@@ -98,7 +106,7 @@ for(let data of this.dokter){
         this.http.post(this.data.BASE_URL+"/choosing_doctor.php?patient="+this.id_patient,input).subscribe(data => {
         let response = data.json();
         
-	if(response.status=="200"){
+	if(response.status=="200"  && this.isValidFormChoose){
         //console.log(response);
         this.data.login(response.data,"pasien");
         this.gotoTab();
@@ -109,6 +117,18 @@ for(let data of this.dokter){
                 buttons: ['OK']
               });
       }
+      else if(!this.isValidFormChoose)
+           {
+             loading.dismiss();
+             let alert = this.alertCtrl.create({
+                title: 'Pilih Dokter',
+                subTitle: '',      
+                buttons: ['OK']
+              });
+              this.vibration.vibrate(1000);
+              alert.present();
+              
+           }
       else
            {
              loading.dismiss();
@@ -124,6 +144,7 @@ for(let data of this.dokter){
 
       });
     }
+    
   }
 
 

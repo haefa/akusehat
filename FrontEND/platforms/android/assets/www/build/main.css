@@ -21332,6 +21332,10 @@ page-harian-pasien .contenthistory5 {
   padding-top: 20px;
 }
 
+page-harian-pasien .tanggal {
+  font-size: 15px;
+}
+
 page-isi-data .text-input::-webkit-input-placeholder {
   color: #bcc0c6;
   font-size: 85%;

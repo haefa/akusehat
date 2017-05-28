@@ -186,7 +186,7 @@ console.log(input);
     this.checkUmur();
     this.checkBB();
     this.checkTB();
-    if(form.valid && this.isValidFormChoose && this.isValidFormTelephone && this.isValidFormBB && this.isValidFormTB && this.isValidFormUmur){
+    if(form.valid  && this.isValidFormTelephone && this.isValidFormBB && this.isValidFormTB && this.isValidFormUmur){
       loading.present();
       let input = JSON.stringify({
         name:this.name,
@@ -253,6 +253,17 @@ console.log(input);
               alert.present();
          this.submitted2 = false;
       }
+    }
+    else if(!this.isValidFormChoose)
+    {
+      loading.dismiss();
+            this.vibration.vibrate(1000);
+             let alert = this.alertCtrl.create({
+                title: 'Lengkapi Data',
+                subTitle: '',      
+                buttons: ['OK']
+              });
+              alert.present();
     }
     else
     {
