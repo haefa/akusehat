@@ -45,33 +45,40 @@
         $query_history = mysqli_query($connect, "INSERT INTO health_history (id_history,id_pat, age, weight, height, allergy, disability, operation, description, active) VALUES ('$id','$id','$age','$weight', '$height', '$allergy', '$disability','$operation','$description','1')");
 
         if($query_history){
-                $data =array(
-                    'message' => "Register Success",
-                    'status' => "200"
-                );
+              $query=mysqli_query($connect, "SELECT id_doctor,sum FROM doctors WHERE specialization='$choose_doctor' && sum_patient>sum ORDER BY sum ASC ");
+              $query=mysqli_fetch_assoc($query);
+              $id_doct=$query['id_doctor'];
+              $sum=$query['sum']+1;
+
+              $cek=mysqli_query($connect, "INSERT INTO patients_doctors (id_doct, id_pat, active) VALUES ('$id_doct','$id','1')");
+              if($cek){
+                  mysqli_query($connect, "UPDATE doctors SET sum='$sum'");
+                  $data =array(
+                      'message' => "Register Success",
+                      'status' => "200"
+                  );
+              }
+              else{
+                  $data =array(
+                      'message' => "Choose Doctor Failed",
+                      'status' => "404"
+                  );
+              }
+
             }
             else{
                 $data =array(
-                    'message' => "Register Failed",
+                    'message' => "Database Failed",
                     'status' => "404"
                 );
             }
     }
     else{
         $data =array(
-            'message' => "Database Patients Failed",
-            'status' => "404"
+            'message' => "Email has been taken!",
+            'status' => "409"
         );
     }
-
-
-    //choosing Doctors
-    $id_doct=mysqli_query($connect, "SELECT id_doctor FROM doctors WHERE specialization='$choose_doctor' ORDER BY  rand()");
-    $id_doct=mysqli_fetch_assoc($id_doct);
-    //$id_doct['id_doct'];
-    $id_doct=$id_doct['id_doctor'];
-
-    mysqli_query($connect, "INSERT INTO patients_doctors (id_doct, id_pat, active) VALUES ('$id_doct','$id','1')");
 
     echo json_encode($data);
 ?>
