@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar color="{{theme}}">
+    <ion-title>
+      Komentar
+    </ion-title>
+  </ion-navbar>	
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item *ngFor="let data of daily" >
+  <!--<ion-item>-->
+		<ion-item>
+			<ion-icon name="pulse"></ion-icon>
+			
+			<ion-badge item-right color="dark" small><font size="2">{{data.date_daily}}</font></ion-badge>
+		</ion-item>
+		&nbsp;
+		
+				<ion-item >
+				&nbsp;&nbsp;&nbsp;&nbsp; Tekanan Darah
+					<ion-note item-right color="dark">
+						{{data.tension_sistol}}/{{data.tension_diastol}} mmHg
+						</ion-note>
+				</ion-item>
+				<ion-item>
+				&nbsp;&nbsp;&nbsp;&nbsp; Durasi Tidur
+					<ion-note item-right color="dark">
+						{{data.sleep_duration}} jam
+						</ion-note>
+				</ion-item>
+				<ion-item no-lines text wrap>
+				&nbsp;&nbsp;&nbsp;&nbsp;  Deskripsi
+				<ion-card text-wrap>
+					<ion-item text-wrap>
+						<p>  {{data.daily_description}}</p>
+					</ion-item>
+				</ion-card>
+				</ion-item>
+				
+		
+
+	</ion-item>
+ 
+  <h4 ion-text text-center>
+			<strong>Komentar</strong>
+	</h4>
+
+
+
+
+</ion-content>
