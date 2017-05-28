@@ -47,6 +47,37 @@
 			<strong>Komentar</strong>
 	</h4>
 
+	
+	<ion-item text-wrap *ngFor="let data of dataKomentar" >
+      <p ion-text text-right><font size="2">{{data.date}}</font></p>
+      <font size="3">{{data.sender}}</font>
+      <p>{{data.comments}}</p>   
+  </ion-item>
+	
+
+
+	<ion-item no-lines></ion-item>
+
+	<form #komentarForm="ngForm" novalidate>
+		<ion-list >
+			<ion-item>
+				<!--<ion-label stacked>Email</ion-label>-->
+				<ion-input placeholder="ketik komentar" [(ngModel)]="comment_patient" name="comment_patient" type="text" #komen="ngModel" spellcheck="false" autocapitalize="off"
+					required>
+				</ion-input>
+			</ion-item>
+		</ion-list>
+
+		<ion-row responsive-sm>
+			<ion-col>
+				<button color="{{theme}}"  ion-button (click)="komentar(komentarForm)" type="submit" block>komentar</button>
+			</ion-col>
+		</ion-row>		
+
+		
+
+	</form>
+
 
 
 
