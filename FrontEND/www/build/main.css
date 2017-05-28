@@ -35546,3 +35546,13 @@ page-tambah-riwayat .text-input::placeholder {
   color: #bcc0c6;
   font-size: 85%;
 }
+
+page-theme .theme_button {
+  height: 12.5vw !important;
+  width: 100%;
+}
+
+page-theme-doctor .theme_button {
+  height: 12.5vw !important;
+  width: 100%;
+}

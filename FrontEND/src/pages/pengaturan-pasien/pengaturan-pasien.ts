@@ -28,17 +28,18 @@ export class PengaturanPasien {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PengaturanPasien');
-  }
-
-  ionViewWillEnter() {
-    //ini ni ngambil value yang di return dari data.ts
-    
     this.data.getDataPasien().then((data) => {
      
       this.id_patient = data.id_patient;
        this.theme= data.theme;
       
     })
+  }
+
+  ionViewWillEnter() {
+    //ini ni ngambil value yang di return dari data.ts
+    
+    
 
   }
   presentModal() {

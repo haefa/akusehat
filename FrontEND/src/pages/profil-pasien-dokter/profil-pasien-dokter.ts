@@ -36,6 +36,8 @@ export class ProfilPasienDokter {
     this.no_tel_patient = pasien.no_tel_patient;
     this.id_patient = pasien.id_patient;
 
+    console.log(pasien);
+
     this.getRiwayatKesehatan();
     this.getDataHistory();
   }

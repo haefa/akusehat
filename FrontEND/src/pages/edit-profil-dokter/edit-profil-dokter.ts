@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams,LoadingController } from 'ionic-angular';
 import { ProfilDokter } from '../profil-dokter/profil-dokter';
 import { AlertController } from 'ionic-angular';
 import { Data } from '../../providers/data';
@@ -27,7 +27,7 @@ export class EditProfilDokter {
     hospital:string;
     educational_background:string;
 
-  constructor(public navCtrl: NavController,public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams) {
+  constructor(public loadCtrl: LoadingController,public navCtrl: NavController,public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -72,7 +72,10 @@ export class EditProfilDokter {
 
   editProfil()
   {
-    
+    let loading = this.loadCtrl.create({
+        content: 'menyimpan..'
+    });
+    loading.present();
       let input = JSON.stringify({
         name:this.name,
         no_tel_doctor:this.no_tel_doctor,
@@ -93,7 +96,7 @@ export class EditProfilDokter {
 
        
        // this.data.login(response.data);
-          
+          loading.dismiss();
           this.data.login(response.data,"dokter");
           // this.navCtrl.push(ProfilPasien);
           let alert = this.alertCtrl.create({
@@ -105,6 +108,7 @@ export class EditProfilDokter {
       }
       else
            {
+             loading.dismiss();
              let alert = this.alertCtrl.create({
                 title: 'Gagal Mengubah Profil',
                 subTitle: '',      

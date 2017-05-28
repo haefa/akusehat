@@ -9,6 +9,7 @@ import { ProfilDokterPasien } from '../profil-dokter-pasien/profil-dokter-pasien
 import { Data } from '../../providers/data';
 import { Http } from '@angular/http';
 import { PilihDokterLagiPage } from '../pilih-dokter-lagi/pilih-dokter-lagi';
+import { KomentarPage } from '../komentar/komentar';
 
 
 @Component({
@@ -89,6 +90,11 @@ export class Beranda {
 
   nextBayar(){
   	this.navCtrl.push(Bayar);
+  }
+
+  
+  komentar(data){
+     this.navCtrl.push(KomentarPage, data);
   }
 
 
