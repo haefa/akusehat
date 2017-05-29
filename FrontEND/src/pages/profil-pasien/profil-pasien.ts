@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {  NavController, NavParams, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
 import { EditProfilPasien } from '../edit-profil-pasien/edit-profil-pasien';
-import { AlertController } from 'ionic-angular';
+
 import { AkuSehat } from '../aku-sehat/aku-sehat';
 import { PengaturanPasien } from '../pengaturan-pasien/pengaturan-pasien';
 import { ProfilDokterPasien } from '../profil-dokter-pasien/profil-dokter-pasien';
@@ -15,6 +15,8 @@ import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 
 
+import { AlertController } from 'ionic-angular';
+import { Vibration } from '@ionic-native/vibration';
 
 declare var cordova: any;
 
@@ -25,6 +27,8 @@ declare var cordova: any;
 export class ProfilPasien {
 
   theme:string;
+  base64Image: string;
+  profil_pict_pat:string;
 
   history: any;
   history2: any;
@@ -43,7 +47,21 @@ export class ProfilPasien {
   no_tel_patient:number;
   name_doctor:string;
 
-  constructor(public navCtrl: NavController,public http: Http, public data: Data, public alertCtrl: AlertController, public navParams: NavParams, private camera: Camera, private transfer: Transfer, private file: File, private filePath: FilePath,public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform, public loadingCtrl: LoadingController) {
+  constructor(
+    public navCtrl: NavController,
+    public http: Http, public data: Data,
+    public alertCtrl: AlertController,
+    public navParams: NavParams,
+    private transfer: Transfer,
+    private file: File,
+    private filePath: FilePath,
+    public actionSheetCtrl: ActionSheetController,
+    public toastCtrl: ToastController,
+    public platform: Platform,
+    private camera: Camera,
+    public loadingCtrl: LoadingController,
+    private vibration: Vibration,
+    public loadCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -60,6 +78,7 @@ export class ProfilPasien {
       this.name_doctor = data.name_doctor;
       this.id_patient = data.id_patient;
       this.theme= data.theme;
+      this.profil_pict_pat = data.profil_pict_pat;
       //this.id_doctor = data.id_doct;
       
       this.getRiwayatKesehatan();
@@ -133,27 +152,46 @@ export class ProfilPasien {
     });
   }
 
-
-
-   public presentActionSheet() {
+  takePicture(){
+    this.camera.getPicture({
+        destinationType: this.camera.DestinationType.DATA_URL,
+        targetWidth: 600,
+        targetHeight: 600
+    }).then((imageData) => {
+      this.base64Image = imageData;
+      this.uploadFoto();
+      }, (err) => {
+    });
+  }
+  getPhotoFromGallery(){
+    this.camera.getPicture({
+        destinationType: this.camera.DestinationType.DATA_URL,
+        sourceType     : this.camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth: 600,
+        targetHeight: 600
+    }).then((imageData) => {
+      this.base64Image = imageData;
+      this.uploadFoto();
+      }, (err) => {
+    });
+  }
+  updatePicture() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Pilih Sumber Gambar',
+      title: 'Pilihan',
       buttons: [
         {
-          text: 'Dari album lokal',
+          text: 'Ambil Gambar Baru',
+          role: 'ambilGambar',
           handler: () => {
-            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.takePicture();
           }
         },
         {
-          text: 'Ambil gambar baru',
+          text: 'Pilih Dari Galleri',
+          role: 'gallery',
           handler: () => {
-            this.takePicture(this.camera.PictureSourceType.CAMERA);
+            this.getPhotoFromGallery();
           }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
         }
       ]
     });
@@ -161,109 +199,192 @@ export class ProfilPasien {
   }
 
 
+   uploadFoto(){
+    
+    let loading = this.loadCtrl.create({
+        content: 'mengunggah..'
+    });
+      
+      loading.present();
+      let input = JSON.stringify({
+        profil_pict_pat: this.base64Image
+      });
+        this.http.post(this.data.BASE_URL+"/upload.php?patient="+this.id_patient,input).subscribe(data => {
+        let response = data.json();
+        
+	    if(response.status=="200"){
+        console.log(response);
+        this.data.login(response.data,"pasien");
+        
+        loading.dismiss();
+        let alert = this.alertCtrl.create({
+                title: 'Berhasil',
+                subTitle: 'Foto profil terunggah.',      
+                buttons: ['OK']
+              });
+      }
+      else
+           {
+             loading.dismiss();
+             let alert = this.alertCtrl.create({
+                title: 'Proses Gagal',
+                subTitle: 'silahkan coba lagi',      
+                buttons: ['OK']
+              });
+              this.vibration.vibrate(1000);
+              alert.present();
+              
+           }
 
-  public takePicture(sourceType) {
-  // Create options for the Camera Dialog
-  var options = {
-    quality: 100,
-    sourceType: sourceType,
-    saveToPhotoAlbum: false,
-    correctOrientation: true
-  };
- 
-  // Get the data of an image
-  this.camera.getPicture(options).then((imagePath) => {
-    // Special handling for Android library
-    if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-      this.filePath.resolveNativePath(imagePath)
-        .then(filePath => {
-          let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-          let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-        });
-    } else {
-      var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-      var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+      });
     }
-  }, (err) => {
-    this.presentToast('Terjadi kesalahan saat memilih gambar.');
-  });
-}
+
+    
 
 
 
-// Create a new name for the image
-private createFileName() {
-  var d = new Date(),
-  n = d.getTime(),
-  newFileName =  n + ".jpg";
-  return newFileName;
-}
- 
-// Copy the image to a local folder
-private copyFileToLocalDir(namePath, currentName, newFileName) {
-  this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
-    this.lastImage = newFileName;
-  }, error => {
-    this.presentToast('Terjadi kesalahan saat menyimpan gambar.');
-  });
-}
- 
-private presentToast(text) {
-  let toast = this.toastCtrl.create({
-    message: text,
-    duration: 3000,
-    position: 'top'
-  });
-  toast.present();
-}
- 
-// Always get the accurate path to your apps folder
-public pathForImage(img) {
-  if (img === null) {
-    return '';
-  } else {
-    return cordova.file.dataDirectory + img;
-  }
-}
 
 
 
-public uploadImage() {
-  // Destination URL
-  var url = this.data.BASE_URL+"/upload.php";
+    
+  
+
+
  
-  // File for Upload
-  var targetPath = this.pathForImage(this.lastImage);
+
+//ini yang dari internet
+// public presentActionSheet() {
+//     let actionSheet = this.actionSheetCtrl.create({
+//       title: 'Pilih Sumber Gambar',
+//       buttons: [
+//         {
+//           text: 'Dari album lokal',
+//           handler: () => {
+//             this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+//           }
+//         },
+//         {
+//           text: 'Ambil gambar baru',
+//           handler: () => {
+//             this.takePicture(this.camera.PictureSourceType.CAMERA);
+//           }
+//         },
+//         {
+//           text: 'Batal',
+//           role: 'cancel'
+//         }
+//       ]
+//     });
+//     actionSheet.present();
+//   }
+
+
+
+//   public takePicture(sourceType) {
+//   // Create options for the Camera Dialog
+//   var options = {
+//     quality: 100,
+//     sourceType: sourceType,
+//     saveToPhotoAlbum: false,
+//     correctOrientation: true
+//   };
  
-  // File name only
-  var filename = this.lastImage;
+//   // Get the data of an image
+//   this.camera.getPicture(options).then((imagePath) => {
+//     // Special handling for Android library
+//     if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+//       this.filePath.resolveNativePath(imagePath)
+//         .then(filePath => {
+//           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+//           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+//           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+//         });
+//     } else {
+//       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+//       var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+//       this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+//     }
+//   }, (err) => {
+//     this.presentToast('Terjadi kesalahan saat memilih gambar.');
+//   });
+// }
+
+
+
+// // Create a new name for the image
+// private createFileName() {
+//   var d = new Date(),
+//   n = d.getTime(),
+//   newFileName =  n + ".jpg";
+//   return newFileName;
+// }
  
-  var options = {
-    fileKey: "file",
-    fileName: filename,
-    chunkedMode: false,
-    mimeType: "multipart/form-data",
-    params : {'fileName': filename}
-  };
+// // Copy the image to a local folder
+// private copyFileToLocalDir(namePath, currentName, newFileName) {
+//   this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
+//     this.lastImage = newFileName;
+//   }, error => {
+//     this.presentToast('Terjadi kesalahan saat menyimpan gambar.');
+//   });
+// }
  
-  const fileTransfer: TransferObject = this.transfer.create();
+// private presentToast(text) {
+//   let toast = this.toastCtrl.create({
+//     message: text,
+//     duration: 3000,
+//     position: 'top'
+//   });
+//   toast.present();
+// }
  
-  this.loading = this.loadingCtrl.create({
-    content: 'Uploading...',
-  });
-  this.loading.present();
+// // Always get the accurate path to your apps folder
+// public pathForImage(img) {
+//   if (img === null) {
+//     return '';
+//   } else {
+//     return cordova.file.dataDirectory + img;
+//   }
+// }
+
+
+
+// public uploadImage() {
+//   // Destination URL
+//   var url = this.data.BASE_URL+"/upload.php";
  
-  // Use the FileTransfer to upload the image
-  fileTransfer.upload(targetPath, url, options).then(data => {
-    this.loading.dismissAll()
-    this.presentToast('Image succesful uploaded.');
-  }, err => {
-    this.loading.dismissAll()
-    this.presentToast('Error while uploading file.');
-  });
-}
+//   // File for Upload
+//   var targetPath = this.pathForImage(this.lastImage);
+ 
+//   // File name only
+//   var filename = this.lastImage;
+ 
+//   var options = {
+//     fileKey: "file",
+//     fileName: filename,
+//     chunkedMode: false,
+//     mimeType: "multipart/form-data",
+//     params : {'fileName': filename}
+//   };
+ 
+//   const fileTransfer: TransferObject = this.transfer.create();
+ 
+//   this.loading = this.loadingCtrl.create({
+//     content: 'Uploading...',
+//   });
+//   this.loading.present();
+ 
+//   // Use the FileTransfer to upload the image
+//   fileTransfer.upload(targetPath, url, options).then(data => {
+//     this.loading.dismissAll()
+//     this.presentToast('Image succesful uploaded.');
+//   }, err => {
+//     this.loading.dismissAll()
+//     this.presentToast('Error while uploading file.');
+//   });
+// }
+
+
+
 
 
 

@@ -33,12 +33,13 @@
   </ion-fab>
 
 	<ion-card > 
-		<!--<img src="{{pathForImage(lastImage)}}" [hidden]="lastImage === null"  style='height: 40vh; width: 40vh; display: block; margin: auto;'>-->
 		
-	  <img src="assets/pict/person-flat.png"  style='height: 40vh; width: 40vh; display: block; margin: auto;'>
+	  <img [src]="profil_pict_pat" *ngIf="profil_pict_pat" alt="avatar">
+
+	  <img src="assets/pict/person-flat.png" *ngIf="!profil_pict_pat" style='height: 40vh; width: 40vh; display: block; margin: auto;'>
 	  <ion-item>
 	  <button ion-button clear item-right>
-			  <ion-icon name="ios-image" color="{{theme}}" (click)="presentActionSheet()"></ion-icon>
+			  <ion-icon name="ios-image" color="{{theme}}" (click)="updatePicture()"></ion-icon>
 			</button>
 		</ion-item>
 	  <ion-card-content>
