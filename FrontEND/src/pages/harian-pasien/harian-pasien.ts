@@ -86,6 +86,7 @@ export class HarianPasienPage {
         let response = data.json();
 
       if(response.status=="200"){
+        loading.dismiss();
         this.daily= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
         console.log(this.date_daily);
     }

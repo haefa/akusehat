@@ -28,7 +28,7 @@ export class ProfilPasien {
 
   theme:string;
   base64Image: string;
-  profil_pict_pat:string;
+  profile_pict_pat:string;
 
   history: any;
   history2: any;
@@ -78,9 +78,9 @@ export class ProfilPasien {
       this.name_doctor = data.name_doctor;
       this.id_patient = data.id_patient;
       this.theme= data.theme;
-      this.profil_pict_pat = data.profil_pict_pat;
+      this.profile_pict_pat = this.data.BASE_URL+data.profile_pict_pat;
       //this.id_doctor = data.id_doct;
-      
+      console.log(data);
       this.getRiwayatKesehatan();
       this.getDataHistory();
     })
@@ -206,12 +206,13 @@ export class ProfilPasien {
     });
       
       loading.present();
+      // alert(this.base64Image);
       let input = JSON.stringify({
-        profil_pict_pat: this.base64Image
+        file: this.base64Image
       });
-        this.http.post(this.data.BASE_URL+"/upload.php?patient="+this.id_patient,input).subscribe(data => {
+        this.http.post(this.data.BASE_URL+"/base64decode.php?patient="+this.id_patient,input).subscribe(data => {
         let response = data.json();
-        
+        // alert(response);
 	    if(response.status=="200"){
         console.log(response);
         this.data.login(response.data,"pasien");
@@ -222,6 +223,7 @@ export class ProfilPasien {
                 subTitle: 'Foto profil terunggah.',      
                 buttons: ['OK']
               });
+              alert.present();
       }
       else
            {
