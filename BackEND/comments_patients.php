@@ -2,19 +2,22 @@
 
   include 'db_connect.php';
 
-    $id_pat=$_GET['id_pat']; //get id
+    $id=$_GET['patient']; //get id
     $id_daily_h=$_GET['id_daily_h']; //get id
 
+    $query_name = mysqli_query($connect, "SELECT name_patient FROM patients WHERE id_patient='$id'");
+    $query_name = mysqli_fetch_assoc($query_name);
+    $name = $query_name['name_patient'];
     $postdata = file_get_contents("php://input");
     $comments = "";
     $date="";
     if (isset($postdata)) {
         $request = json_decode($postdata);
-        $comments=$request->comments;
+        $comments=$request->comment_patient;
         $date=$request->date;
     }
   //  $date=date_format($date_daily, "Y-m-d");
-    $query_comments = mysqli_query($connect, "INSERT INTO comments (id_daily_h, comments, date, id_doct, id_pat, active) VALUES ('$id_daily_h','$comments','$date','$id_pat','','1')");
+    $query_comments = mysqli_query($connect, "INSERT INTO comments (id_daily_h, comments, date, sender, active) VALUES ('$id_daily_h','$comments','$date','$name','1')");
 
 
         if($query_comments){

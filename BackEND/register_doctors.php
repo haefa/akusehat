@@ -38,7 +38,7 @@
     $encrypt_password = md5($password_doctor);
 
 
-    $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, bank_doctor, no_account_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor,  active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$bank', '$no_account', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor',  '1')");
+    $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, bank_doctor, no_account_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor, sum, active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$bank', '$no_account', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor', '0', '1')");
 
 
     if($query_register){
@@ -60,8 +60,8 @@
     }
     else{
         $data =array(
-            'message' => "Database Doctors Failed",
-            'status' => "404"
+            'message' => "Email Already Taken!",
+            'status' => "409"
         );
     }
     echo json_encode($data);

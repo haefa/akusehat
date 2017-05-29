@@ -1,16 +1,18 @@
 <?php
+
   include 'db_connect.php';
-    $query_user = mysqli_query($connect, "SELECT DISTINCT specialization,id_doctor FROM doctors WHERE sum_patient>sum");
+    $id=$_GET['patient'];
+    $query_user = mysqli_query($connect, "SELECT theme FROM patients WHERE id_patient='$id'");
+
     $result_set = array();
     while($result =mysqli_fetch_assoc($query_user)){
         $result_set[]=$result;
     }
     $data =array(
-        'message' => "Get Data Doctors Succses",
+        'message' => "Get Data Daily Health Succses",
         'data' => $result_set,
         'status' => "200"
-    );
+      );
 
-    echo json_encode($data);
-
+      echo json_encode($data);
 ?>
