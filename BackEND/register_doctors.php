@@ -37,32 +37,35 @@
     }
     $encrypt_password = md5($password_doctor);
 
+    $query_regis = mysqli_query($connect, "SELECT * FROM doctors WHERE email_doctor='$email_doctor' AND password_doctor='$encrypt_password'");
 
-    $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, bank_doctor, no_account_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor, sum, active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$bank', '$no_account', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor', '0', '1')");
 
 
-    if($query_register){
-
-      $query_regis = mysqli_query($connect, "INSERT INTO doctors_spesification (id_doct, hospital, domicile, educational_background, experience, active) VALUES ('$id','$hospital', '', '$educational_background', '$experience','1')");
-
-      if($query_regis){
-          $data =array(
-              'message' => "Register Success",
-              'status' => "200"
-          );
-      }
-      else{
-          $data =array(
-              'message' => "Register Failed",
-              'status' => "404"
-          );
-      }
+    if(mysqli_num_rows($query_regis)){
+      $data =array(
+          'message' => "Email Already Taken!",
+          'status' => "409"
+      );
     }
     else{
-        $data =array(
-            'message' => "Email Already Taken!",
-            'status' => "409"
-        );
+        $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, bank_doctor, no_account_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor, sum, active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$bank', '$no_account', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor', '0', '1')");
+
+
+        $query_regis = mysqli_query($connect, "INSERT INTO doctors_spesification (id_doct, hospital, domicile, educational_background, experience, active) VALUES ('$id','$hospital', '', '$educational_background', '$experience','1')");
+
+        if($query_regis){
+            $data =array(
+                'message' => "Register Success",
+                'status' => "200"
+            );
+        }
+        else{
+            $data =array(
+                'message' => "Register Failed",
+                'status' => "404"
+            );
+        }
+
     }
     echo json_encode($data);
 ?>
