@@ -65,7 +65,7 @@ export class HarianPasienPage {
 
 
   changeDateFilter(date){
-    this.date_daily = moment(date).format('01-MM-YYYY');
+    this.date_daily = moment(date).format('YYYY-MM-01'); // di set gitu, karena gak btuh tanggalnya
     // this.date_daily_update = this.date_daily;
     console.log(this.date_daily);
     this.getDataKesehatanUpdate();

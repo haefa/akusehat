@@ -28,6 +28,7 @@ export class ProfilPasien {
 
   theme:string;
   base64Image: string;
+  photo:string;
   profile_pict_pat:string;
 
   history: any;
@@ -78,7 +79,9 @@ export class ProfilPasien {
       this.name_doctor = data.name_doctor;
       this.id_patient = data.id_patient;
       this.theme= data.theme;
-      this.profile_pict_pat = this.data.BASE_URL+data.profile_pict_pat;
+      this.profile_pict_pat = data.profile_pict_pat;
+      this.photo = this.data.BASE_URL+data.profile_pict_pat;
+      
       //this.id_doctor = data.id_doct;
       console.log(data);
       this.getRiwayatKesehatan();
@@ -138,6 +141,14 @@ export class ProfilPasien {
       console.log(response);
       if(response.status=="200"){
         this.history= response.data;   //ini disimpen ke variabel pasien diatas itu ,, yang udah di delacre
+      }
+      else {
+        let alert = this.alertCtrl.create({
+                title: 'Gagal Mengambil Data',
+                subTitle: 'Lakukan refresh dengan cara menarik halaman kebawah',      
+                buttons: ['OK']
+              });
+              alert.present();
       }
     });
   }
@@ -219,11 +230,12 @@ export class ProfilPasien {
         
         loading.dismiss();
         let alert = this.alertCtrl.create({
-                title: 'Berhasil',
-                subTitle: 'Foto profil terunggah.',      
+                title: 'Foto profil terunggah',
+                subTitle: 'Lakukan refresh dengan cara menarik halaman kebawah',      
                 buttons: ['OK']
               });
               alert.present();
+        
       }
       else
            {
