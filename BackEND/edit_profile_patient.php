@@ -44,7 +44,7 @@
                                 
     $query_register = mysqli_query($connect, "UPDATE health_history SET age='$age', weight='$weight', height='$height', disability='$disability', allergy='$allergy', operation='$operation', description='$description' WHERE id_pat='$id' ");
             
-    $query_select = mysqli_query($connect, "SELECT * FROM patients P JOIN health_history H WHERE id_patient=id_pat AND id_pat='$id'");      
+    $query_select = mysqli_query($connect, "SELECT id_patient,name_patient,email_patient,address_patient,sex_patient,no_tel_patient,id_doctor,name_doctor,no_tel_doctor, P.theme, profile_pict_doct,profile_pict_pat, age, weight, height, disability, allergy, operation, description FROM health_history H JOIN patients P JOIN patients_doctors A JOIN doctors D WHERE P.id_patient=H.id_pat AND P.id_patient=A.id_pat AND id_doct=id_doctor AND id_patient='$id'");
         $row=mysqli_fetch_assoc($query_select);
             $data =array(
                 'message' => "Wah datanya lengkap",
@@ -84,7 +84,7 @@
             
             mysqli_query($connect, "INSERT INTO health_history (id_history,id_pat, age, weight, height, allergy, disability, operation, description ,active) VALUES ('$id','$id','$age','$weight', '$height', '$allergy', '$disability','$operation','$description','1'");
             
-           $query_select = mysqli_query($connect, "SELECT * FROM patients P JOIN health_history H WHERE id_patient=id_pat AND id_pat='$id'");      
+    $query_select = mysqli_query($connect, "SELECT id_patient,name_patient,email_patient,address_patient,sex_patient,no_tel_patient,id_doctor,name_doctor,no_tel_doctor, P.theme, profile_pict_doct,profile_pict_pat, age, weight, height, disability, allergy, operation, description FROM health_history H JOIN patients P JOIN patients_doctors A JOIN doctors D WHERE P.id_patient=H.id_pat AND P.id_patient=A.id_pat AND id_doct=id_doctor AND id_patient='$id'");
         $row=mysqli_fetch_assoc($query_select);
             $data =array(
                 'message' => "Wah datanya lengkap",

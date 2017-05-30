@@ -1,4 +1,9 @@
 <?php
+    
+    header('Access-Control-Allow-Origin; *');
+    header('Access-Control-Methods; GET, POST, PUT, OPTIONS');
+    header('Access-Control-Allow-Header; Content-Type');
+
   include 'db_connect.php';
     $id=$_GET['doctor'];
     $query_user = mysqli_query($connect, "SELECT * FROM doctors WHERE id_doctor='$id'");

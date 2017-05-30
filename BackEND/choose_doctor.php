@@ -1,6 +1,6 @@
 <?php
   include 'db_connect.php';
-    $query_user = mysqli_query($connect, "SELECT DISTINCT specialization,id_doctor FROM doctors WHERE sum_patient>sum");
+    $query_user = mysqli_query($connect, "SELECT DISTINCT specialization FROM doctors WHERE sum_patient>sum");
     $result_set = array();
     while($result =mysqli_fetch_assoc($query_user)){
         $result_set[]=$result;

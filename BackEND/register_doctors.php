@@ -11,8 +11,8 @@
     $email_doctor = "";
     $password_doctor = "";
     $no_tel_doctor = "";
-    $bank="";
-    $no_account="";
+  //  $bank="";
+  //  $no_account="";
     $specialization = "";
     $sum_patient ="";
     $hospital ="";
@@ -26,8 +26,8 @@
         $password_doctor = $request->password;
         $no_tel_doctor = $request->telephone;
         $sex_doctor = $request->sex;
-        $bank=$request->bank;
-        $no_account=$request->bank_number;
+      //  $bank=$request->bank;
+      //  $no_account=$request->bank_number;
         $specialization = $request->specialization;
         $sum_patient =$request->patients_max;
         $hospital =$request->hospital;
@@ -48,7 +48,7 @@
       );
     }
     else{
-        $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, bank_doctor, no_account_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor, sum, active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$bank', '$no_account', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor', '0', '1')");
+        $query_register = mysqli_query($connect, "INSERT INTO doctors (id_doctor,name_doctor,email_doctor, password_doctor, sex_doctor, specialization, sum_patient, no_tel_doctor, sum, theme, active) VALUES ('$id','$name_doctor','$email_doctor','$encrypt_password', '$sex_doctor','$specialization', '$sum_patient', '$no_tel_doctor', '0', 'primary', '1')");
 
 
         $query_regis = mysqli_query($connect, "INSERT INTO doctors_spesification (id_doct, hospital, domicile, educational_background, experience, active) VALUES ('$id','$hospital', '', '$educational_background', '$experience','1')");

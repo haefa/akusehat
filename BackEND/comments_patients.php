@@ -17,7 +17,7 @@
         $date=$request->date;
     }
   //  $date=date_format($date_daily, "Y-m-d");
-    $query_comments = mysqli_query($connect, "INSERT INTO comments (id_daily_h, comments, date, sender, active) VALUES ('$id_daily_h','$comments','$date','$name','1')");
+    $query_comments = mysqli_query($connect, "INSERT INTO comments (id_daily_h, comments, date, sender, type, active) VALUES ('$id_daily_h','$comments','$date','$name', '2','1')");
 
 
         if($query_comments){

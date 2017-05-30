@@ -27,10 +27,11 @@
 
     }
     else{
+        $result_set[]=null;
 
       $data =array(
           'message' => "Get Data Daily Health Failed",
-          //'data' => $result_set,
+          'data' => $result_set,
           'status' => "404"
         );
     }

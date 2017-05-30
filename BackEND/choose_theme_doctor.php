@@ -1,5 +1,4 @@
-
-\<?php
+<?php
 
   include 'db_connect.php';
 
@@ -11,7 +10,7 @@
         $theme= $request->theme;
     }
         $query=mysqli_query($connect, "UPDATE doctors SET theme='$theme' WHERE id_doctor='$id'");
-        $query_select = mysqli_query($connect,   "SELECT * FROM doctors JOIN doctors_spesification WHERE id_doctor='$id' AND id_doctor=id_doct ");
+        $query_select = mysqli_query($connect, "SELECT * FROM doctors JOIN doctors_spesification WHERE id_doctor='$id' AND id_doctor=id_doct ");
 
         if(mysqli_num_rows($query_select)){
           $row=mysqli_fetch_assoc($query_select);

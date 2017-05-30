@@ -46,11 +46,11 @@
             'message' => "Email has been taken!",
             'status' => "409"
         );
-
+      
     }
     else{
         $query_pat=mysqli_query($connect, "INSERT INTO patients (id_patient,name_patient,email_patient, password_patient, address_patient, sex_patient, no_tel_patient,theme,active) VALUES ('$id','$name_patient','$email_patient','$encrypt_password', '$address', '$sex_patient', '$no_tel_patient','primary','1')");
-
+      
         $query_history = mysqli_query($connect, "INSERT INTO health_history (id_history,id_pat, age, weight, height, allergy, disability, operation, description, active) VALUES ('$id','$id','$age','$weight', '$height', '$allergy', '$disability','$operation','$description','1')");
 
         if($query_history){
@@ -81,8 +81,8 @@
                     'status' => "404"
                 );
             }
-
-
+        
+        
     }
 
     echo json_encode($data);

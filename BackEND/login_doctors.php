@@ -12,9 +12,10 @@
     }
     $encrypt_password = md5($password);
 
-    $query_login = mysqli_query($connect,   "SELECT * FROM doctors JOIN doctors_spesification WHERE   email_doctor='$username' AND password_doctor='$encrypt_password' AND id_doctor=id_doct ");
-    if(mysqli_num_rows($query_login)){
+    $query_login = mysqli_query($connect,   "SELECT id_doctor, name_doctor, email_doctor, specialization, sum_patient, no_tel_doctor, sum, theme, profile_pict_doct, hospital, domicile, educational_background, experience  FROM doctors JOIN doctors_spesification WHERE   email_doctor='$username' AND password_doctor='$encrypt_password' AND id_doctor=id_doct ");
 
+    if(mysqli_num_rows($query_login)){
+        
         $row=mysqli_fetch_assoc($query_login);
         $data =array(
             'message' => "Login Success",
@@ -23,23 +24,10 @@
         );
     }
     else{
-        $query_login = mysqli_query($connect,   "SELECT * FROM doctors WHERE email_doctor='$username' AND password_doctor='$encrypt_password'");
-        if(mysqli_num_rows($query_login)){
-
-            $row=mysqli_fetch_assoc($query_login);
-            $data =array(
-                'message' => "Login Success, but haven't Spesification",
-                'data' => $row,
-                'status' => "200"
-            );
-        }
-        else{
-            $data =array(
-                'message' => "Login Failed, Email or Password Wrong",
-                'status' => "404"
-            );
+        $data =array(
+            'message' => "Login Failed, Email or Password Wrong",
+            'status' => "404"
+        );
     }
-    }
-
     echo json_encode($data);
-?>
+?>   

@@ -10,7 +10,7 @@ include 'db_connect.php';
   $img = str_replace('data:image/png;base64,', '', $img);
   $img = str_replace(' ', '+', $img);
   $img = base64_decode($img);
-  $subFolder = "/images";
+  $subFolder = "/images/patients";
   $dir = __DIR__ .$subFolder ; // Full Path
   is_dir($dir) || @mkdir($dir) || die("Can't Create folder");
 
@@ -36,5 +36,13 @@ include 'db_connect.php';
   }
 
   echo json_encode($data);
-  
+
+
+
+
+//$file = $_POST['file'];
+
+
+
+
  ?>
