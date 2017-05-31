@@ -82,9 +82,13 @@
 					</ion-item>
 				</ion-card>
 				</ion-item>
+				<!--<ion-item  no-lines text-right>
+					<p>2 komentar</p>
+				</ion-item>-->
 				<ion-item no-lines>
-					<button ion-button round block (click)="komentar(data)" color="{{theme}}">Komentar</button>
+					<button ion-button round block (click)="komentar(data)" color="{{theme}}">Komentar &nbsp; <div *ngIf='data.comment_counter>0' > ({{data.comment_counter}})</div></button>
 				</ion-item>
+				
 		</ion-list>
 
 	</ion-item>

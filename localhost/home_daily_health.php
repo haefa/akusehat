@@ -17,8 +17,18 @@
     if(mysqli_num_rows($query_user)){
       $result_set = array();
       while($result =mysqli_fetch_assoc($query_user)){
-          $result_set[]=$result;
-      }
+        $id_daily = $result['id_daily_h'];
+        $query_comment = mysqli_query($connect, "SELECT COUNT(comments) AS comment_counter FROM comments WHERE id_daily_h='$id_daily'");
+        if(mysqli_num_rows($query_comment)){
+          $counter = mysqli_fetch_assoc($query_comment);
+          $result['comment_counter'] = $counter['comment_counter'];
+        }
+        else{
+          $result['comment_counter']  = "0";
+        }
+
+        $result_set[]=$result;
+    }
       $data =array(
           'message' => "Get Data Daily Health Succses",
           'data' => $result_set,

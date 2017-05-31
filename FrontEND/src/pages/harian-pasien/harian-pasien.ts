@@ -25,6 +25,9 @@ export class HarianPasienPage {
   id_patient:number;
   address_patient:string;
   date_daily:string;
+
+  profile_pict_pat:string;
+  photo:string;
   // date_daily_update:string;
   
   theme: string;
@@ -39,6 +42,8 @@ export class HarianPasienPage {
     this.address_patient = pasien.address_patient;
     this.no_tel_patient = pasien.no_tel_patient;
     this.id_patient = pasien.id_patient;
+    this.profile_pict_pat = pasien.profile_pict_pat;
+    this.photo = pasien.profile_pict_pat;
 
     this.getDataKesehatan();
 
