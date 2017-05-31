@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams,ActionSheetController,LoadingController } from 'ionic-angular';
+import {  NavController, NavParams,ActionSheetController,App,LoadingController } from 'ionic-angular';
 import { EditProfilDokter } from '../edit-profil-dokter/edit-profil-dokter';
 import { AlertController } from 'ionic-angular';
 import { AkuSehat } from '../aku-sehat/aku-sehat';
@@ -8,6 +8,7 @@ import { Data } from '../../providers/data';
 import { Http } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
 import { Vibration } from '@ionic-native/vibration';
+import { MyApp } from '../../app/app.component.ts';
 
 @Component({
   selector: 'page-profil-dokter',
@@ -31,7 +32,7 @@ export class ProfilDokter {
     profile_pict_doct
     base64Image: string;
 
-  constructor(public http: Http, public data: Data,public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams,private camera: Camera,public actionSheetCtrl: ActionSheetController,public loadCtrl: LoadingController,private vibration: Vibration,) {
+  constructor(public http: Http, public data: Data,public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams,private camera: Camera,public actionSheetCtrl: ActionSheetController,public loadCtrl: LoadingController,private vibration: Vibration,public app: App) {
   }
 
   ionViewDidLoad() {
@@ -172,17 +173,19 @@ export class ProfilDokter {
       let input = JSON.stringify({
         file: this.base64Image
       });
-        this.http.post(this.data.BASE_URL+"/base64decode.php?patient="+this.id_doctor,input).subscribe(data => {
+        this.http.post(this.data.BASE_URL+"/base64decode_doctor.php?doctor="+this.id_doctor,input).subscribe(data => {
         let response = data.json();
         // alert(response);
 	    if(response.status=="200"){
         console.log(response);
-        this.data.login(response.data,"pasien");
-        
+        this.data.logout();
+        this.app.getRootNav().setRoot(MyApp);
         loading.dismiss();
+        
+        
         let alert = this.alertCtrl.create({
-                title: 'Berhasil',
-                subTitle: 'Foto profil terunggah.',      
+                title: 'Foto profil terunggah',
+                subTitle: 'silahkan masuk',      
                 buttons: ['OK']
               });
               alert.present();

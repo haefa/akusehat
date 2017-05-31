@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
+import {  NavController, NavParams,App, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
 import { EditProfilPasien } from '../edit-profil-pasien/edit-profil-pasien';
 
 import { AkuSehat } from '../aku-sehat/aku-sehat';
@@ -17,6 +17,8 @@ import { Camera } from '@ionic-native/camera';
 
 import { AlertController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration';
+
+import { MyApp } from '../../app/app.component.ts';
 
 declare var cordova: any;
 
@@ -62,7 +64,8 @@ export class ProfilPasien {
     private camera: Camera,
     public loadingCtrl: LoadingController,
     private vibration: Vibration,
-    public loadCtrl: LoadingController) {
+    public loadCtrl: LoadingController,
+    public app: App) {
   }
 
   ionViewDidLoad() {
@@ -226,12 +229,14 @@ export class ProfilPasien {
         // alert(response);
 	    if(response.status=="200"){
         console.log(response);
-        this.data.login(response.data,"pasien");
+        this.data.logout();
+        this.app.getRootNav().setRoot(MyApp);
+        loading.dismiss();
         
         loading.dismiss();
         let alert = this.alertCtrl.create({
                 title: 'Foto profil terunggah',
-                subTitle: 'Lakukan refresh dengan cara menarik halaman kebawah',      
+                subTitle: 'silahkan masuk',  
                 buttons: ['OK']
               });
               alert.present();
