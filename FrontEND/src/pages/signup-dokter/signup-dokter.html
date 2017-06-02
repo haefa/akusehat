@@ -27,7 +27,7 @@
 
 			<ion-item>
 				<ion-label stacked color="dark"><font size="2">Email</font></ion-label>
-				<ion-input [(ngModel)]="email" name="email" type="email" #mail="ngModel" spellcheck="false" autocapitalize="off"
+				<ion-input [(ngModel)]="email" name="email" type="email" #mail="ngModel" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
 			</ion-item>
