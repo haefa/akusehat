@@ -50,6 +50,8 @@ export class SignupPasien {
   constructor(private vibration: Vibration,public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public data: Data,public loadCtrl: LoadingController) {
   }
 
+  
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPasien');
   }
@@ -178,9 +180,15 @@ console.log(input);
 
 
   nextSignup(form: NgForm){
+
+    let loading = this.loadCtrl.create({
+        content: 'memuat..'
+    });
+
     this.submitted = true;
     this.checkTelephone();
     
+
     if(form.valid  && this.isValidFormTelephone){
       let input = JSON.stringify({
         name:this.name,
@@ -192,43 +200,48 @@ console.log(input);
 
       });
       if(this.password==this.password2){
-            // console.log(input);
-           this.navCtrl.push(SignupPasien2Page, input);
-        
-    //     this.http.post(this.data.BASE_URL+"/register_patients.php",input).subscribe(data => {
-    //     let response = data.json();
-    //     console.log(input);
-        
-	  // if(response.status=="200"){
+        console.log(input);
 
-       
-       
-    //     this.akunBaru();
-    //     loading.dismiss();
-    //   }
-    //   else if(response.status=="409"){
-    //          loading.dismiss();
-    //          this.vibration.vibrate(1000);
-    //          let alert = this.alertCtrl.create({
-    //             title: 'Email sudah terdaftar',
-    //             subTitle: 'Silahkan pilih email lain.',      
-    //             buttons: ['OK']
-    //           });
-    //           alert.present();
-    //   }
-    //   else
-    //        {
-    //          loading.dismiss();
-    //          this.vibration.vibrate(1000);
-    //          let alert = this.alertCtrl.create({
-    //             title: 'Gagal Membuat Akun',
-    //             subTitle: 'Periksa kembali data.',      
-    //             buttons: ['OK']
-    //           });
-    //           alert.present();
-    //        }
+          
+        loading.present();   
+        let mail = JSON.stringify({
+        email:this.email,
+        
+        });
+        
+        this.http.post(this.data.BASE_URL+"/register_patients_email.php",mail).subscribe(data => {
+        let response = data.json();
+        console.log(input);
+        
+	  if(response.status=="200"){
 
-    //   });
+       loading.dismiss();
+       this.navCtrl.push(SignupPasien2Page, input);
+        
+      }
+      else if(response.status=="409"){
+             loading.dismiss();
+             this.vibration.vibrate(1000);
+             let alert = this.alertCtrl.create({
+                title: 'Email sudah terdaftar',
+                subTitle: 'Silahkan pilih email lain.',      
+                buttons: ['OK']
+              });
+              alert.present();
+      }
+      else
+           {
+             loading.dismiss();
+             this.vibration.vibrate(1000);
+             let alert = this.alertCtrl.create({
+                title: 'Proses Gagal',
+                subTitle: 'Periksa kembali data',      
+                buttons: ['OK']
+              });
+              alert.present();
+           }
+
+      });
       }
     }
     else if(!this.isValidFormChoose)
@@ -237,7 +250,7 @@ console.log(input);
             this.vibration.vibrate(1000);
              let alert = this.alertCtrl.create({
                 title: 'Lengkapi Data',
-                subTitle: '',      
+                subTitle: 'Harap isi data dengan benar',      
                 buttons: ['OK']
               });
               alert.present();
@@ -248,7 +261,7 @@ console.log(input);
             this.vibration.vibrate(1000);
              let alert = this.alertCtrl.create({
                 title: 'Gagal Membuat Akun',
-                subTitle: 'Periksa kembali data.',      
+                subTitle: 'Periksa kembali data',      
                 buttons: ['OK']
               });
               alert.present();
